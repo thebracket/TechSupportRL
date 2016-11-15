@@ -2,10 +2,11 @@
 #include <stack>
 #include <memory>
 #include <rltk.hpp>
-#include "base_mode.hpp"
-#include "menu_mode.hpp"
-#include "intro_mode.hpp"
-#include "game_mode.hpp"
+#include "mode_stack/base_mode.hpp"
+#include "mode_stack/menu_mode.hpp"
+#include "mode_stack/intro_mode.hpp"
+#include "mode_stack/game_mode.hpp"
+#include "mode_stack/dead_mode.hpp"
 
 using namespace rltk;
 
@@ -25,6 +26,10 @@ void tick(double duration_ms) {
 		mode_stack.emplace(std::make_unique<game_mode>());
 		mode_stack.emplace(std::make_unique<intro_mode>());
 		mode_stack.top()->on_init();
+	} else if (result == POP_NO_CAFFEINE) {
+		mode_stack.top()->on_exit();
+		mode_stack.pop();
+		mode_stack.emplace(std::make_unique<dead_mode>());
 	}
 }
 

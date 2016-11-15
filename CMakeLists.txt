@@ -32,11 +32,16 @@ include_directories(${SFML_INCLUDE_DIR})
 # Add all of the example executables and their library dependency
 include_directories(src/external/rltk/rltk)
 add_executable(tsrl src/main.cpp 
-	src/menu_mode.cpp
-	src/intro_mode.cpp
-	src/game_mode.cpp
+	src/mode_stack/menu_mode.cpp
+	src/mode_stack/intro_mode.cpp
+	src/mode_stack/game_mode.cpp
+	src/mode_stack/dead_mode.cpp
 	src/globals.cpp
-	src/render_system.cpp
+	src/systems/render_system.cpp
+	src/systems/keyboard_system.cpp
+	src/systems/hud_system.cpp
+	src/systems/movement_system.cpp
+	src/systems/caffeine_system.cpp
 )
 target_link_libraries(rltk ${SFML_LIBRARIES})
 target_link_libraries(tsrl rltk)
