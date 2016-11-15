@@ -35,6 +35,8 @@ add_executable(tsrl src/main.cpp
 	src/menu_mode.cpp
 	src/intro_mode.cpp
 	src/game_mode.cpp
+	src/globals.cpp
+	src/render_system.cpp
 )
 target_link_libraries(rltk ${SFML_LIBRARIES})
 target_link_libraries(tsrl rltk)

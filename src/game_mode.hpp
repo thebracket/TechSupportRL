@@ -9,4 +9,8 @@ struct game_mode : public base_mode {
 	virtual void on_exit() override final;
 
 	virtual tick_result_t tick(const double ms) override final;
+
+private:
+	void build_game();
+
 };

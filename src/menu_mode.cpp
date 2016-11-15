@@ -48,7 +48,7 @@ tick_result_t menu_mode::tick(const double ms) {
 	term(2)->print_center(8, "A Bracket Production");
 
 	int y = (term(2)->term_height/2) - (options.size() / 2);
-	int i = 0;
+	std::size_t i = 0;
 	for (const auto &opt : options) {
 		if (i == selection) {
 			term(2)->print_center(y, opt, rltk::colors::BLACK, rltk::colors::YELLOW);
