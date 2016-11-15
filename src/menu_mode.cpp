@@ -8,16 +8,19 @@ bool menu_mode::save_exists() const {
 	return boost::filesystem::exists("savegame.dat");
 }
 
-tick_result_t menu_mode::tick(const double ms) {
-	if (first_run) {
-		first_run = false;
-		save_exists_cache = save_exists();
-		if (save_exists_cache) {
-			selection = 0;
-		} else {
-			selection = 1;
-		}
+void menu_mode::on_init() {
+	save_exists_cache = save_exists();
+	if (save_exists_cache) {
+		selection = 0;
+	} else {
+		selection = 1;
 	}
+	key_delay = KEY_PAUSE;
+}
+
+void menu_mode::on_exit() {}
+
+tick_result_t menu_mode::tick(const double ms) {
 
 	if (key_delay < 1.0 && is_window_focused()) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
@@ -31,6 +34,7 @@ tick_result_t menu_mode::tick(const double ms) {
 			if (!save_exists_cache && selection == 0) ++selection;
 			key_delay = KEY_PAUSE;
 		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
+			if (selection == 1) return PUSH_NEW_GAME;
 			if (selection == 2) return POP;
 		}
 	} else {

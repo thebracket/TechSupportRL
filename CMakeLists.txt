@@ -31,7 +31,11 @@ include_directories(${SFML_INCLUDE_DIR})
 
 # Add all of the example executables and their library dependency
 include_directories(src/external/rltk/rltk)
-add_executable(tsrl src/main.cpp src/menu_mode.cpp)
+add_executable(tsrl src/main.cpp 
+	src/menu_mode.cpp
+	src/intro_mode.cpp
+	src/game_mode.cpp
+)
 target_link_libraries(rltk ${SFML_LIBRARIES})
 target_link_libraries(tsrl rltk)
 

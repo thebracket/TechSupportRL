@@ -4,6 +4,8 @@
 #include <rltk.hpp>
 #include "base_mode.hpp"
 #include "menu_mode.hpp"
+#include "intro_mode.hpp"
+#include "game_mode.hpp"
 
 using namespace rltk;
 
@@ -12,10 +14,17 @@ std::stack<std::unique_ptr<base_mode>> mode_stack;
 void tick(double duration_ms) {
 	auto result = mode_stack.top()->tick(duration_ms);
 	if (result == POP) {
+		mode_stack.top()->on_exit();
 		mode_stack.pop();
 		if (mode_stack.empty()) {
 			get_window()->close();
+		} else {
+			mode_stack.top()->on_init();
 		}
+	} else if (result == PUSH_NEW_GAME) {
+		mode_stack.emplace(std::make_unique<game_mode>());
+		mode_stack.emplace(std::make_unique<intro_mode>());
+		mode_stack.top()->on_init();
 	}
 }
 
@@ -30,6 +39,7 @@ int main() {
     gui->add_layer(1, 0, 0, 1024, 768, "16x16", resize_map);
     gui->add_layer(2, 0, 0, 1024, 768, "8x16", resize_map);
     mode_stack.emplace(std::make_unique<menu_mode>());
+    mode_stack.top()->on_init();
     run(tick);
     return 0;
 }
