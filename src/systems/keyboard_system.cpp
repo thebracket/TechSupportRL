@@ -10,12 +10,18 @@ void keyboard_system::configure() {
 }
 
 void keyboard_system::update(const double ms) {
+    if (!waiting_input) return;
+    bool my_turn = false;
+    each<player_t>([&my_turn] (entity_t &e, player_t &p) {
+        p.initiative -= 1;
+        if (p.initiative < 1) my_turn = true;
+    });
+    if (!my_turn) return;
+
     std::queue<key_pressed_t> * messages = mbox<key_pressed_t>();
     while (!messages->empty()) {
         key_pressed_t e = messages->front();
-        messages->pop();
-
-        if (!waiting_input) break;
+        messages->pop();        
 
         // Quit game
         if (e.event.key.code == sf::Keyboard::Q) quitting = true;
@@ -43,6 +49,9 @@ void keyboard_system::update(const double ms) {
         if (e.event.key.code == sf::Keyboard::J) emit_deferred(player_wants_to_move_msg(SOUTH));
         if (e.event.key.code == sf::Keyboard::H) emit_deferred(player_wants_to_move_msg(WEST));
         if (e.event.key.code == sf::Keyboard::L) emit_deferred(player_wants_to_move_msg(EAST));
+
+        // Gait control
+        if (e.event.key.code == sf::Keyboard::G) emit_deferred(player_changed_gait{});
     }
 
 }

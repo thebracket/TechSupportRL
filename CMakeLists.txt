@@ -42,6 +42,7 @@ add_executable(tsrl src/main.cpp
 	src/systems/hud_system.cpp
 	src/systems/movement_system.cpp
 	src/systems/caffeine_system.cpp
+	src/systems/time_system.cpp
 )
 target_link_libraries(rltk ${SFML_LIBRARIES})
 target_link_libraries(tsrl rltk)

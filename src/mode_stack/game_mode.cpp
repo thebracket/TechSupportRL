@@ -99,11 +99,12 @@ void game_mode::build_game() {
 void game_mode::on_init() {
 	quitting = false;
 
-	add_system<render_system>();
-	add_system<hud_system>();
+	add_system<time_system>();
 	add_system<keyboard_system>();
 	add_system<movement_system>();
 	add_system<caffeine_system>();
+	add_system<render_system>();
+	add_system<hud_system>();
 	ecs_configure();
 	build_game();
 }
@@ -115,6 +116,7 @@ void game_mode::on_exit() {
 
 tick_result_t game_mode::tick(const double ms) {
 	ecs_tick(ms);
+	ecs_garbage_collect();
 
 	if (quitting) {
 		switch (quit_reason) {

@@ -8,6 +8,7 @@ constexpr int GUI_CAFFEINE = 2;
 constexpr int GUI_DESPAIR = 3;
 constexpr int GUI_SAVINGS = 4;
 constexpr int GUI_LEVEL = 5;
+constexpr int GUI_GAIT = 6;
 
 void hud_system::configure() {
     system_name = "HUD System";
@@ -19,8 +20,9 @@ void hud_system::configure() {
             rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "Despair ");
     layer(2)->add_hbar(GUI_SAVINGS, 1, 5, 24, 0, 10, 10, rltk::colors::DARK_GREEN, rltk::colors::LIGHT_GREEN, 
             rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "$ Saved ");
-            
-    layer(2)->add_static_text(GUI_LEVEL, 1, 7, "Placeholder", rltk::colors::WHITE, rltk::colors::BLACK);
+    layer(2)->add_static_text(GUI_GAIT, 1, 6, "Placeholder", rltk::colors::WHITE, rltk::colors::BLACK);
+
+    layer(2)->add_static_text(GUI_LEVEL, 1, 8, "Placeholder", rltk::colors::WHITE, rltk::colors::BLACK);
 }
 
 void hud_system::update(const double ms) {
@@ -36,6 +38,12 @@ void hud_system::update(const double ms) {
 
         switch (p.level) {
             case 0 : layer(2)->control<gui_static_text_t>(GUI_LEVEL)->text = "(0) Fresh-Faced Intern"; break;
+        }
+
+        switch (p.gait) {
+            case SNEAKING : layer(2)->control<gui_static_text_t>(GUI_GAIT)->text = "(G) - Sneaking"; break;
+            case WALKING : layer(2)->control<gui_static_text_t>(GUI_GAIT)->text = "(G) - Walking"; break;
+            case RUNNING : layer(2)->control<gui_static_text_t>(GUI_GAIT)->text = "(G) - Running"; break;
         }
 
         each<map_t>([&pos] (entity_t &ent, map_t &map) {

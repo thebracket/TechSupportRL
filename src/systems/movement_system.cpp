@@ -6,6 +6,17 @@ using namespace rltk;
 void movement_system::configure() {
     system_name = "Movement System";
     subscribe_mbox<player_wants_to_move_msg>();
+    subscribe<player_changed_gait>([] (player_changed_gait &p) {
+        each<player_t>([] (entity_t &e, player_t &p) {
+            if (p.gait == SNEAKING) {
+                p.gait = WALKING;
+            } else if (p.gait == WALKING) {
+                p.gait = RUNNING;
+            } else {
+                p.gait = SNEAKING;
+            }
+        });
+    });
 }
 
 void movement_system::update(const double ms) {

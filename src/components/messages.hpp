@@ -14,3 +14,7 @@ struct player_wants_to_move_msg : rltk::base_message_t {
 struct player_performed_action : rltk::base_message_t {
 };
 
+struct tick_message : rltk::base_message_t {
+};
+
+struct player_changed_gait : rltk::base_message_t {};

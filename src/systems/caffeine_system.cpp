@@ -5,6 +5,14 @@
 
 using namespace rltk;
 
+void decrement_caffeine(player_t &p) {
+    if (p.caffeine > 0) --p.caffeine;
+    if (p.caffeine < 1) {
+        quitting = true;
+        quit_reason = CAFFEINE_FAIL;
+    }
+}
+
 void caffeine_system::configure() {
     system_name = "Caffeine System";
     subscribe_mbox<player_performed_action>();
@@ -16,11 +24,11 @@ void caffeine_system::update(const double ms) {
         actions->pop();
 
         each<player_t>([] (entity_t &e, player_t &p) {
-            if (p.caffeine > 0) {
-                --p.caffeine;
+            if (p.gait == RUNNING) {
+                decrement_caffeine(p);
+                decrement_caffeine(p);
             } else {
-                quitting = true;
-                quit_reason = CAFFEINE_FAIL;
+                decrement_caffeine(p);
             }
         });
     }
