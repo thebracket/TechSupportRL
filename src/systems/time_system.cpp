@@ -12,6 +12,11 @@ void time_system::configure() {
 }
 
 void time_system::update(const double ms) {
+    if (first_turn) {
+        first_turn = false;
+        emit(player_performed_action{});
+    }
+
     if (!waiting_input) {
         time_accumulator += ms;
         if (time_accumulator > frame_time_ms) {

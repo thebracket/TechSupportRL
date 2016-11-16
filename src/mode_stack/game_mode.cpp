@@ -93,7 +93,10 @@ void game_mode::build_game() {
 	map.calculate_walkability();
 
 	create_entity()->assign(std::move(map));
-	create_entity()->assign(position_t{MAP_WIDTH/2, MAP_HEIGHT-3, 3})->assign(player_t{})->assign(renderable_t{});
+	create_entity()->assign(position_t{MAP_WIDTH/2, MAP_HEIGHT-3, 3})
+		->assign(player_t{})
+		->assign(renderable_t{})
+		->assign(viewshed_t{8, true});
 }
 
 void game_mode::on_init() {
@@ -103,6 +106,7 @@ void game_mode::on_init() {
 	add_system<keyboard_system>();
 	add_system<movement_system>();
 	add_system<caffeine_system>();
+	add_system<visibility_system>();
 	add_system<render_system>();
 	add_system<hud_system>();
 	ecs_configure();

@@ -33,6 +33,8 @@ inline int mapidx(const position_t &pos) {
 struct map_t {
 	std::vector<uint16_t> tile_type;
 	std::vector<bool> solid;
+	std::vector<bool> visible;
+	std::vector<bool> visible_baddie;
 
 	std::vector<std::string> layer_names = {
 		"Research & Development Caverns",
@@ -50,8 +52,12 @@ struct map_t {
 	map_t() {
 		tile_type.resize(MAP_TILES_COUNT);
 		solid.resize(MAP_TILES_COUNT);
+		visible.resize(MAP_TILES_COUNT);
+		visible_baddie.resize(MAP_TILES_COUNT);
 		std::fill(tile_type.begin(), tile_type.end(), 0);
 		std::fill(solid.begin(), solid.end(), false);
+		std::fill(visible.begin(), visible.end(), false);
+		std::fill(visible_baddie.begin(), visible_baddie.end(), false);
 	}
 
 	void calculate_walkability() {
@@ -66,4 +72,12 @@ struct map_t {
 			solid[i] = is_solid; 
 		}
 	}	
+};
+
+struct navigator_helper {
+	static int get_x(const position_t &loc) { return loc.x; }
+	static int get_y(const position_t &loc) { return loc.y; }
+	static position_t get_xy(const int &x, const int &y) {
+		return position_t{x,y,0}; 
+	}
 };

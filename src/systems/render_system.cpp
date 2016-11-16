@@ -41,12 +41,19 @@ void render_system::update(const double ms) {
 			if (world_x > -1 && world_x < MAP_WIDTH && world_y > -1 && world_y < MAP_HEIGHT) {
 				const int idx = mapidx(world_x, world_y, player_z);
 
+				color_t col = rltk::colors::WHITE;
+				color_t bg = rltk::colors::BLACK;
+				uint8_t glyph = '.';
+
 				auto finder = renderables.find(idx);
 				if (finder != renderables.end()) {
-					term(1)->set_char(x, y, finder->second);
+					col = finder->second.foreground;
+					bg = finder->second.background;
+					glyph = finder->second.glyph;
 				} else {
-					color_t col = rltk::colors::WHITE;
-					uint8_t glyph = '.';
+					col = rltk::colors::WHITE;
+					bg = rltk::colors::BLACK;
+					glyph = '.';
 
 					switch (map->tile_type[idx]) {
 						case tiles::FLOOR : { col = rltk::colors::GREY; glyph = '.'; } break;
@@ -57,10 +64,17 @@ void render_system::update(const double ms) {
 						case tiles::FREEDOM : { col = rltk::colors::LIGHT_GREEN; glyph = '^'; } break;
 						case tiles::PATH : { col = rltk::colors::GREY; glyph = '^'; } break;
 						case tiles::GLASS_DOOR : { col = rltk::colors::CYAN; glyph = 197; } break;
-					}
-
-					term(1)->set_char(x, y, vchar{glyph, col, rltk::colors::BLACK});
+					}					
+					
 				}
+				if (!map->visible[idx]) {
+					col = darken(50, col);
+				}
+				if (map->visible_baddie[idx]) {
+					bg = rltk::colors::DarkBlue;
+				}
+
+				term(1)->set_char(x, y, vchar{glyph, col, bg});
 			}
 		}
 	}

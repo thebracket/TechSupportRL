@@ -5,3 +5,4 @@
 #include "position.hpp"
 #include "map.hpp"
 #include "renderable.hpp"
+#include "viewshed.hpp"
