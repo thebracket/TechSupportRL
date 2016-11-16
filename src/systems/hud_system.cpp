@@ -9,6 +9,7 @@ constexpr int GUI_DESPAIR = 3;
 constexpr int GUI_SAVINGS = 4;
 constexpr int GUI_LEVEL = 5;
 constexpr int GUI_GAIT = 6;
+constexpr int GUI_DRINK = 7;
 
 void hud_system::configure() {
     system_name = "HUD System";
@@ -21,8 +22,9 @@ void hud_system::configure() {
     layer(2)->add_hbar(GUI_SAVINGS, 1, 5, 24, 0, 10, 10, rltk::colors::DARK_GREEN, rltk::colors::LIGHT_GREEN, 
             rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "$ Saved ");
     layer(2)->add_static_text(GUI_GAIT, 1, 6, "Placeholder", rltk::colors::WHITE, rltk::colors::BLACK);
+    layer(2)->add_static_text(GUI_DRINK, 1, 7, "", rltk::colors::WHITE, rltk::colors::BLACK);
 
-    layer(2)->add_static_text(GUI_LEVEL, 1, 8, "Placeholder", rltk::colors::WHITE, rltk::colors::BLACK);
+    layer(2)->add_static_text(GUI_LEVEL, 1, 9, "Placeholder", rltk::colors::WHITE, rltk::colors::BLACK);
 }
 
 void hud_system::update(const double ms) {
@@ -48,6 +50,14 @@ void hud_system::update(const double ms) {
 
         each<map_t>([&pos] (entity_t &ent, map_t &map) {
             term(2)->print_center(0, map.layer_names[pos.level]);
+            each<player_t, position_t>([&map] (entity_t &ignore, player_t &player, position_t &pos) {
+                const int idx = mapidx(pos.x, pos.y, pos.level);
+                if (map.has_coffee[idx]) {
+                    layer(2)->control<gui_static_text_t>(GUI_DRINK)->text = "(D) Drink Coffee";
+                } else {
+                    layer(2)->control<gui_static_text_t>(GUI_DRINK)->text = "No Coffee Here";
+                }
+            });
         });
     });
 }

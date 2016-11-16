@@ -18,3 +18,5 @@ struct tick_message : rltk::base_message_t {
 };
 
 struct player_changed_gait : rltk::base_message_t {};
+
+struct drink_coffee : rltk::base_message_t {};

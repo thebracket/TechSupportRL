@@ -36,6 +36,7 @@ struct map_t {
 	std::vector<bool> solid;
 	std::vector<bool> visible;
 	std::vector<bool> visible_baddie;
+	std::vector<bool> has_coffee;
 
 	std::vector<std::string> layer_names = {
 		"Research & Development Caverns",
@@ -55,10 +56,12 @@ struct map_t {
 		solid.resize(MAP_TILES_COUNT);
 		visible.resize(MAP_TILES_COUNT);
 		visible_baddie.resize(MAP_TILES_COUNT);
+		has_coffee.resize(MAP_TILES_COUNT);
 		std::fill(tile_type.begin(), tile_type.end(), 0);
 		std::fill(solid.begin(), solid.end(), false);
 		std::fill(visible.begin(), visible.end(), false);
 		std::fill(visible_baddie.begin(), visible_baddie.end(), false);
+		std::fill(has_coffee.begin(), has_coffee.end(), false);
 	}
 
 	void calculate_walkability() {

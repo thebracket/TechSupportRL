@@ -16,6 +16,8 @@ void decrement_caffeine(player_t &p) {
 void caffeine_system::configure() {
     system_name = "Caffeine System";
     subscribe_mbox<player_performed_action>();
+    subscribe_mbox<tick_message>();
+    subscribe_mbox<drink_coffee>();
 }
 
 void caffeine_system::update(const double ms) {
@@ -29,6 +31,37 @@ void caffeine_system::update(const double ms) {
                 decrement_caffeine(p);
             } else {
                 decrement_caffeine(p);
+            }
+        });
+    }
+
+    map_t * map;
+    each<map_t>([&map] (entity_t &e, map_t &m) { map = &m; });
+
+    std::queue<tick_message> * ticks = mbox<tick_message>();
+    while (!ticks->empty()) {
+        ticks->pop();
+
+        std::fill(map->has_coffee.begin(), map->has_coffee.end(), false);
+        each<coffee_machine, position_t>([&map] (entity_t &e, coffee_machine &c, position_t &pos) {
+            map->has_coffee[mapidx(pos.x, pos.y, pos.level)] = true;
+            map->has_coffee[mapidx(pos.x-1, pos.y, pos.level)] = true;
+            map->has_coffee[mapidx(pos.x+1, pos.y, pos.level)] = true;
+            map->has_coffee[mapidx(pos.x, pos.y-1, pos.level)] = true;
+            map->has_coffee[mapidx(pos.x, pos.y+1, pos.level)] = true;
+        });
+    }
+
+    std::queue<drink_coffee> * drinkorders = mbox<drink_coffee>();
+    while (!drinkorders->empty()) {
+        drinkorders->pop();
+
+        each<player_t, position_t>([&map] (entity_t &e, player_t &p, position_t &pos) {
+            const int idx = mapidx(pos.x, pos.y, pos.level);
+            if (map->has_coffee[idx]) {
+                // TODO: Console message
+                p.caffeine = 101;
+                emit(player_performed_action{});
             }
         });
     }

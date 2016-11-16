@@ -14,13 +14,13 @@ void time_system::configure() {
 void time_system::update(const double ms) {
     if (first_turn) {
         first_turn = false;
-        emit(player_performed_action{});
+        emit_deferred(player_performed_action{});
     }
 
     if (!waiting_input) {
         time_accumulator += ms;
         if (time_accumulator > frame_time_ms) {
-            emit(tick_message{});
+            emit_deferred(tick_message{});
             time_accumulator = 0.0;
         }
     }
@@ -34,6 +34,7 @@ void time_system::update(const double ms) {
                 case WALKING : p.initiative = rng.roll_dice(1,8)+2; break;
                 case RUNNING : p.initiative = rng.roll_dice(1,6)+1; break;
             }
+            waiting_input = false;
         } );
     }
 }
