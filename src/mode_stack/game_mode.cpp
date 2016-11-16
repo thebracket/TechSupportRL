@@ -9,7 +9,7 @@ using namespace rltk;
 void build_stairs(map_t &map) {
 	// The middle gets an elevator
 	const int mid_x = MAP_WIDTH/2;
-	const int mid_y = MAP_HEIGHT/2;
+	const int mid_y = MAP_HEIGHT/2 - 2;
 	map.tile_type[mapidx(mid_x, mid_y, 0)] = tiles::UP;
 	bool even = true;
 	for (int l=1; l<MAP_DEPTH-2; ++l) {
@@ -49,27 +49,50 @@ void build_lobby(map_t &map) {
 				case 214 : {
 					// Chair
 					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{194, rltk::colors::LightSkyBlue})->assign(position_t{x,y,3})->assign(name_t{"Office Chair"});
+					create_entity()->assign(renderable_t{194, rltk::colors::LightSkyBlue})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Office Chair"});
 				} break;
 				case 203 : {
 					// Table
 					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{203, rltk::colors::Brown})->assign(position_t{x,y,3})->assign(name_t{"Office Table"});
+					create_entity()->assign(renderable_t{203, rltk::colors::Brown})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Office Table"})
+						->assign(blocker_t{});
 				} break;
 				case 127 : {
 					// Toilet
 					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{239, rltk::colors::Blue})->assign(position_t{x,y,3})->assign(name_t{"Toilet"});
+					create_entity()->assign(renderable_t{239, rltk::colors::Blue})
+					->assign(position_t{x,y,3})
+					->assign(name_t{"Toilet"});
 				} break;
 				case 202 : {
 					// Sink
 					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{233, rltk::colors::Blue})->assign(position_t{x,y,3})->assign(name_t{"Sink"});
+					create_entity()->assign(renderable_t{233, rltk::colors::Blue})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Sink"})
+						->assign(blocker_t{});
 				} break;
 				case 167 : {
 					// Coffee Station
 					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{232, rltk::colors::YELLOW})->assign(position_t{x,y,3})->assign(name_t{"Coffee Machine"})->assign(coffee_machine{});
+					create_entity()->assign(renderable_t{232, rltk::colors::YELLOW})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Coffee Machine"})
+						->assign(coffee_machine{})
+						->assign(blocker_t{});
+				} break;
+				case 255 : {
+					// Computer
+					map.tile_type[idx] = tiles::FLOOR;
+					create_entity()->assign(renderable_t{228, rltk::colors::GREEN})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Work Computer"})
+						->assign(computer_t{})
+						->assign(blocker_t{});
 				} break;
 				default  : {
 					map.tile_type[idx] = tiles::WALL;
@@ -109,7 +132,8 @@ void game_mode::build_game() {
 	create_entity()->assign(position_t{MAP_WIDTH/2, MAP_HEIGHT-3, 3})
 		->assign(player_t{})
 		->assign(renderable_t{})
-		->assign(viewshed_t{8, true});
+		->assign(viewshed_t{8, true})
+		->assign(blocker_t{});
 }
 
 void game_mode::on_init() {
@@ -117,6 +141,7 @@ void game_mode::on_init() {
 
 	add_system<time_system>();
 	add_system<keyboard_system>();
+	add_system<blocking_system>();
 	add_system<movement_system>();
 	add_system<caffeine_system>();
 	add_system<visibility_system>();

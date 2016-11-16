@@ -65,6 +65,7 @@ struct map_t {
 	}
 
 	void calculate_walkability() {
+		std::fill(solid.begin(), solid.end(), false);
 		for (std::size_t i=0; i<MAP_TILES_COUNT; ++i) {
 			bool is_solid = true;
 			if (tile_type[i] == tiles::FLOOR) is_solid = false;

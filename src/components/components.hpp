@@ -8,3 +8,5 @@
 #include "viewshed.hpp"
 #include "name.hpp"
 #include "coffee_machine.hpp"
+#include "blocker.hpp"
+#include "computer.hpp"

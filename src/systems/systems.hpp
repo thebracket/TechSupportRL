@@ -7,3 +7,4 @@
 #include "caffeine_system.hpp"
 #include "time_system.hpp"
 #include "visibility_system.hpp"
+#include "blocking_system.hpp"
