@@ -64,6 +64,7 @@ void render_system::update(const double ms) {
 						case tiles::FREEDOM : { col = rltk::colors::LIGHT_GREEN; glyph = '^'; } break;
 						case tiles::PATH : { col = rltk::colors::GREY; glyph = '^'; } break;
 						case tiles::GLASS_DOOR : { col = rltk::colors::CYAN; glyph = 197; } break;
+						case tiles::WATER : { col = rltk::colors::BLUE; glyph = '~'; } break;
 					}					
 					
 				}

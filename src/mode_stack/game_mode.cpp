@@ -30,41 +30,54 @@ void build_stairs(map_t &map) {
 }
 
 void build_lobby(map_t &map) {
-	// The lobby level - add grass
-	for (int i=1; i<5; ++i) {
-		for (int j=0; j<MAP_WIDTH; ++j) {
-			if (j > (MAP_WIDTH/2)-2 && j < (MAP_WIDTH/2)+2) {
-				map.tile_type[mapidx(j, i, 3)] = tiles::PATH;
-				map.tile_type[mapidx(j, MAP_HEIGHT-1-i, 3)] = tiles::PATH;
-			} else {
-				map.tile_type[mapidx(j, i, 3)] = tiles::GRASS;
-				map.tile_type[mapidx(j, MAP_HEIGHT-1-i, 3)] = tiles::GRASS;
+	xp::rex_sprite lobby("assets/lobby.xp");
+	for (int y=0; y<MAP_HEIGHT; ++y) {
+		for (int x=0; x<MAP_WIDTH; ++x) {
+			const vchar * c = lobby.get_tile(0,x,y);
+			const int idx = mapidx(x,y,3);
+
+			switch (c->glyph) {
+				case '.' : map.tile_type[idx] = tiles::FLOOR; break;
+				case '^' : map.tile_type[idx] = tiles::FREEDOM; break;
+				case '"' : map.tile_type[idx] = tiles::GRASS; break;
+				case '~' : map.tile_type[idx] = tiles::PATH; break;
+				case '<' : map.tile_type[idx] = tiles::UP; break;
+				case '>' : map.tile_type[idx] = tiles::DOWN; break;
+				case 219 : map.tile_type[idx] = tiles::WALL; break;
+				case 176 : map.tile_type[idx] = tiles::WATER; break;
+				case 197 : map.tile_type[idx] = tiles::GLASS_DOOR; break;
+				case 214 : {
+					// Chair
+					map.tile_type[idx] = tiles::FLOOR;
+					create_entity()->assign(renderable_t{194, rltk::colors::LightSkyBlue})->assign(position_t{x,y,3})->assign(name_t{"Office Chair"});
+				} break;
+				case 203 : {
+					// Table
+					map.tile_type[idx] = tiles::FLOOR;
+					create_entity()->assign(renderable_t{203, rltk::colors::Brown})->assign(position_t{x,y,3})->assign(name_t{"Office Table"});
+				} break;
+				case 127 : {
+					// Toilet
+					map.tile_type[idx] = tiles::FLOOR;
+					create_entity()->assign(renderable_t{239, rltk::colors::Blue})->assign(position_t{x,y,3})->assign(name_t{"Toilet"});
+				} break;
+				case 202 : {
+					// Sink
+					map.tile_type[idx] = tiles::FLOOR;
+					create_entity()->assign(renderable_t{233, rltk::colors::Blue})->assign(position_t{x,y,3})->assign(name_t{"Sink"});
+				} break;
+				case 167 : {
+					// Coffee Station
+					map.tile_type[idx] = tiles::FLOOR;
+					create_entity()->assign(renderable_t{232, rltk::colors::YELLOW})->assign(position_t{x,y,3})->assign(name_t{"Coffee Machine"})->assign(coffee_machine{});
+				} break;
+				default  : {
+					map.tile_type[idx] = tiles::WALL;
+					std::cout << "Unknown REX char: " << +c->glyph << "\n"; 
+				} break;
 			}
-			map.tile_type[mapidx(j, 0, 3)] = tiles::FREEDOM;
-			map.tile_type[mapidx(j, MAP_HEIGHT-1, 3)] = tiles::FREEDOM;
-		}
-		for (int j=0; j<MAP_HEIGHT; ++j) {
-			map.tile_type[mapidx(i, j, 3)] = tiles::GRASS;
-			map.tile_type[mapidx(MAP_WIDTH-1-i, j, 3)] = tiles::GRASS;
-			map.tile_type[mapidx(0, j, 3)] = tiles::FREEDOM;
-			map.tile_type[mapidx(MAP_WIDTH-1, j, 3)] = tiles::FREEDOM;
 		}
 	}
-	// Add glass doors and walls
-	for (int x=5; x<MAP_WIDTH-5; ++x) {
-		map.tile_type[mapidx(x, 5, 3)] = tiles::WALL;
-		map.tile_type[mapidx(x, MAP_HEIGHT-6, 3)] = tiles::WALL;
-	}
-	for (int y=5; y<MAP_HEIGHT-5; ++y) {
-		map.tile_type[mapidx(5, y, 3)] = tiles::WALL;
-		map.tile_type[mapidx(MAP_WIDTH-6, y, 3)] = tiles::WALL;
-	}
-	map.tile_type[mapidx((MAP_WIDTH/2)-1, 5, 3)] = tiles::GLASS_DOOR;
-	map.tile_type[mapidx((MAP_WIDTH/2), 5, 3)] = tiles::GLASS_DOOR;
-	map.tile_type[mapidx((MAP_WIDTH/2)+1, 5, 3)] = tiles::GLASS_DOOR;
-	map.tile_type[mapidx((MAP_WIDTH/2)-1, MAP_HEIGHT-6, 3)] = tiles::GLASS_DOOR;
-	map.tile_type[mapidx((MAP_WIDTH/2), MAP_HEIGHT-6, 3)] = tiles::GLASS_DOOR;
-	map.tile_type[mapidx((MAP_WIDTH/2)+1, MAP_HEIGHT-6, 3)] = tiles::GLASS_DOOR;
 }
 
 void game_mode::build_game() {

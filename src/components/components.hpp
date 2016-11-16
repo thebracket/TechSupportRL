@@ -6,3 +6,5 @@
 #include "map.hpp"
 #include "renderable.hpp"
 #include "viewshed.hpp"
+#include "name.hpp"
+#include "coffee_machine.hpp"
