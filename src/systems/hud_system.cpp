@@ -17,8 +17,10 @@ void hud_system::configure() {
             rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "Health ");
     layer(2)->add_hbar(GUI_CAFFEINE, 1, 3, 24, 0, 100, 100, rltk::colors::RED, rltk::colors::GREEN, 
             rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "Caffeine ");
-    layer(2)->add_hbar(GUI_DESPAIR, 1, 4, 24, 0, 100, 100, rltk::colors::BLUE, rltk::colors::RED, 
-            rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "Despair ");
+
+    layer(2)->add_hbar(GUI_DESPAIR, 1, 4, 24, 0, 10, 10, rltk::colors::BLUE, rltk::colors::GREEN, 
+            rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "Hope ");
+
     layer(2)->add_hbar(GUI_SAVINGS, 1, 5, 24, 0, 10, 10, rltk::colors::DARK_GREEN, rltk::colors::LIGHT_GREEN, 
             rltk::colors::DARKEST_GREY, rltk::colors::LIGHT_GREY, rltk::colors::WHITE, "$ Saved ");
     layer(2)->add_static_text(GUI_GAIT, 1, 6, "Placeholder", rltk::colors::WHITE, rltk::colors::BLACK);

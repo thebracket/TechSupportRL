@@ -30,9 +30,9 @@ void time_system::update(const double ms) {
         actions->pop();
         each<player_t>([] (entity_t &e, player_t &p) {
             switch (p.gait) {
-                case SNEAKING : p.initiative = rng.roll_dice(1,10)+3; break;
-                case WALKING : p.initiative = rng.roll_dice(1,8)+2; break;
-                case RUNNING : p.initiative = rng.roll_dice(1,6)+1; break;
+                case SNEAKING : p.initiative = rng.roll_dice(1,10)+7; break;
+                case WALKING : p.initiative = rng.roll_dice(1,8)+5; break;
+                case RUNNING : p.initiative = rng.roll_dice(1,6)+3; break;
             }
             waiting_input = false;
         } );

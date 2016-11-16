@@ -30,6 +30,10 @@ void tick(double duration_ms) {
 		mode_stack.top()->on_exit();
 		mode_stack.pop();
 		mode_stack.emplace(std::make_unique<dead_mode>());
+	} else if (result == POP_NO_HOPE) {
+		mode_stack.top()->on_exit();
+		mode_stack.pop();
+		mode_stack.emplace(std::make_unique<dead_mode>());
 	}
 }
 

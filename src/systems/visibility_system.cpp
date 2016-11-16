@@ -16,28 +16,28 @@ void visibility_system::update(const double ms) {
         map = &m;
     });
 
-    // Did the player move? If so, then their viewshed needs updating
-    std::queue<player_performed_action> * actions = mbox<player_performed_action>();
-    while (!actions->empty()) {
-        actions->pop();
-        each<player_t, position_t, viewshed_t>([&map] (entity_t &e, player_t &p, position_t &pos, viewshed_t &view) {
-            view.visible_tiles.clear();
+    // Update viewsheds
+    gait_t gait;
+    each<player_t>([&gait] (entity_t &e, player_t &p) { gait = p.gait; });
+    each<position_t, viewshed_t>([&map, &gait] (entity_t &e, position_t &pos, viewshed_t &view) {
+        view.visible_tiles.clear();
 
-            visibility_sweep_2d<position_t, navigator_helper>(pos, view.range, [&pos, &view] (position_t reveal) {
-                if (reveal.x < 0 || reveal.x > MAP_WIDTH-1 || reveal.y < 0 || reveal.y > MAP_HEIGHT-1) return;
+        int range = view.range;
+        if (gait == SNEAKING) range = range / 2;
+        visibility_sweep_2d<position_t, navigator_helper>(pos, view.range, [&pos, &view] (position_t reveal) {
+            if (reveal.x < 0 || reveal.x > MAP_WIDTH-1 || reveal.y < 0 || reveal.y > MAP_HEIGHT-1) return;
 
-				const int idx = mapidx(reveal.x, reveal.y, pos.level);
-                view.visible_tiles.insert(idx);
-            }, [&map, &pos] (position_t check) {
-                
-				if (check.x < 0) check.x = 0;
-                if (check.x > MAP_WIDTH-1) check.x = MAP_WIDTH-1;
-                if (check.y < 0) check.y = 0;
-                if (check.y > MAP_HEIGHT-1) check.y = MAP_HEIGHT-1;
-                return map->solid[mapidx(check.x, check.y, pos.level)]==false;
-			});
+            const int idx = mapidx(reveal.x, reveal.y, pos.level);
+            view.visible_tiles.insert(idx);
+        }, [&map, &pos] (position_t check) {
+            
+            if (check.x < 0) check.x = 0;
+            if (check.x > MAP_WIDTH-1) check.x = MAP_WIDTH-1;
+            if (check.y < 0) check.y = 0;
+            if (check.y > MAP_HEIGHT-1) check.y = MAP_HEIGHT-1;
+            return map->solid[mapidx(check.x, check.y, pos.level)]==false;
         });
-    }
+    });
 
     // Color in the map
     std::fill(map->visible.begin(), map->visible.end(), false);

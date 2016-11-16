@@ -8,3 +8,6 @@
 #include "time_system.hpp"
 #include "visibility_system.hpp"
 #include "blocking_system.hpp"
+#include "ai_system.hpp"
+#include "log_system.hpp"
+#include "despair_system.hpp"

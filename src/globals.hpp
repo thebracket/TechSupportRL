@@ -2,7 +2,7 @@
 
 #include <rltk.hpp>
 
-enum quit_reason_t {QUIT, CAFFEINE_FAIL};
+enum quit_reason_t {QUIT, CAFFEINE_FAIL, DESPAIR_FAIL};
 
 extern bool quitting;
 extern bool waiting_input;

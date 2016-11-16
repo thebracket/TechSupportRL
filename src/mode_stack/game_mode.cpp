@@ -99,6 +99,59 @@ void build_lobby(map_t &map) {
 					std::cout << "Unknown REX char: " << +c->glyph << "\n"; 
 				} break;
 			}
+
+			// Spawners
+			const vchar * spawner = lobby.get_tile(1,x,y);
+			switch (spawner->glyph) {
+				case 'r' : {
+					create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Cranky Receptionist"})
+						->assign(static_ai{})
+						->assign(viewshed_t{2})
+						->assign(despair_attack_t{{
+							{ "says \"I'll be with you in a minute.\"", 1 },
+							{ "says \"Don't worry, WidgetCorp will find a use for you.\"", 1 },
+							{ "says \"I'm sure I'll find you in the database eventually.\"", 1 },
+							{ "says \"Welcome to WidgetCorp. Please wait.\"", 1 }
+						}});
+				} break;
+				case 'g' : {
+					create_entity()->assign(renderable_t{'g', rltk::colors::Pink})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Unnaturally Happy Greeter"})
+						->assign(static_ai{})
+						->assign(viewshed_t{2})
+						->assign(despair_attack_t{{
+							{ "chirps \"Welcome to WidgetCorp. I hope you enjoy your shopping experience!\"", 1 }
+						}});
+				} break;
+				case 'v' : {
+					create_entity()->assign(renderable_t{'v', rltk::colors::Pink})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Widget Vendor"})
+						->assign(nuisance_ai{})
+						->assign(viewshed_t{6})
+						->assign(despair_attack_t{{
+							{ "tries to sell you some Widgets", 1 }
+						}});
+				} break;
+				case 'c' : {
+					create_entity()->assign(renderable_t{'c', rltk::colors::BLUE})
+						->assign(position_t{x,y,3})
+						->assign(name_t{"Annoyed Customer"})
+						->assign(nuisance_ai{})
+						->assign(viewshed_t{6})
+						->assign(despair_attack_t{{
+							{ "says \"I've been here an hour, you know!\"", 1 },
+							{ "says \"You probably can't help me. Nobody can help me.\"", 1 }
+						}});
+				} break;
+				case ' ' : {} break;
+				default : {
+					std::cout << "Unknown REX char: " << +spawner->glyph << "\n";
+				}
+			}
 		}
 	}
 }
@@ -133,20 +186,23 @@ void game_mode::build_game() {
 		->assign(player_t{})
 		->assign(renderable_t{})
 		->assign(viewshed_t{8, true})
-		->assign(blocker_t{});
+		->assign(logger_t{});
 }
 
 void game_mode::on_init() {
 	quitting = false;
 
 	add_system<time_system>();
-	add_system<keyboard_system>();
 	add_system<blocking_system>();
+	add_system<keyboard_system>();
+	add_system<ai_system>();
 	add_system<movement_system>();
 	add_system<caffeine_system>();
+	add_system<despair_system>();
 	add_system<visibility_system>();
 	add_system<render_system>();
 	add_system<hud_system>();
+	add_system<log_system>();
 	ecs_configure();
 	build_game();
 }
@@ -164,6 +220,7 @@ tick_result_t game_mode::tick(const double ms) {
 		switch (quit_reason) {
 		case QUIT : return POP;
 		case CAFFEINE_FAIL : return POP_NO_CAFFEINE;
+		case DESPAIR_FAIL : return POP_NO_HOPE;
 		}
 	} else {
 		return CONTINUE;

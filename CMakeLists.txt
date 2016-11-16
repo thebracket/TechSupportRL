@@ -45,6 +45,10 @@ add_executable(tsrl src/main.cpp
 	src/systems/time_system.cpp
 	src/systems/visibility_system.cpp
 	src/systems/blocking_system.cpp
+	src/systems/ai_system.cpp
+	src/systems/log_system.cpp
+	src/systems/despair_system.cpp
+	src/components/logger.cpp
 )
 target_link_libraries(rltk ${SFML_LIBRARIES})
 target_link_libraries(tsrl rltk)

@@ -1,5 +1,6 @@
 #include "movement_system.hpp"
 #include "../components/components.hpp"
+#include "../globals.hpp"
 
 using namespace rltk;
 
@@ -17,6 +18,7 @@ void movement_system::configure() {
             }
         });
     });
+    subscribe_mbox<entity_wants_to_move_randomly>();
 }
 
 void movement_system::update(const double ms) {
@@ -45,5 +47,31 @@ void movement_system::update(const double ms) {
 
             if (idx != mapidx(pos.x,pos.y,pos.level)) emit(player_performed_action{});
         });
+    }
+
+    std::queue<entity_wants_to_move_randomly> * rmove_requests = mbox<entity_wants_to_move_randomly>();
+    while (!rmove_requests->empty()) {
+        entity_wants_to_move_randomly e = rmove_requests->front();
+        rmove_requests->pop();
+
+        auto E = entity(e.entity_id);
+        if (!E) break;
+        auto pos = E->component<position_t>();
+        if (!pos) break;
+
+        std::vector<position_t> candidates;
+        if (!map->solid[mapidx(pos->x-1, pos->y, pos->level)]) candidates.push_back(position_t(pos->x-1, pos->y, pos->level));
+        if (!map->solid[mapidx(pos->x+1, pos->y, pos->level)]) candidates.push_back(position_t(pos->x+1, pos->y, pos->level));
+        if (!map->solid[mapidx(pos->x, pos->y-1, pos->level)]) candidates.push_back(position_t(pos->x, pos->y-1, pos->level));
+        if (!map->solid[mapidx(pos->x, pos->y+1, pos->level)]) candidates.push_back(position_t(pos->x, pos->y+1, pos->level));
+        if (map->tile_type[mapidx(pos->x, pos->y, pos->level)] == tiles::UP) candidates.push_back(position_t(pos->x, pos->y, pos->level+1));
+        if (map->tile_type[mapidx(pos->x, pos->y, pos->level)] == tiles::DOWN) candidates.push_back(position_t(pos->x, pos->y, pos->level-1));
+
+        if (!candidates.empty()) {
+            const int selection = rng.roll_dice(1, candidates.size()-1);
+            pos->x = candidates[selection].x;
+            pos->y = candidates[selection].y;
+            pos->level = candidates[selection].level;
+        }
     }
 }

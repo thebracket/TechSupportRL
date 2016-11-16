@@ -7,15 +7,25 @@ using namespace rltk;
 void keyboard_system::configure() {
     system_name = "Keyboard";
     subscribe_mbox<key_pressed_t>();
+    subscribe_mbox<tick_message>();
 }
 
 void keyboard_system::update(const double ms) {
+    bool tick = false;
+    std::queue<tick_message> * ticks = mbox<tick_message>();
+    while (!ticks->empty()) {
+        ticks->pop();
+        tick = true;
+    }
+
     bool my_turn = false;
     each<player_t>([&my_turn] (entity_t &e, player_t &p) {
-        p.initiative -= 1;
+        --p.initiative;
         if (p.initiative < 1) my_turn = true;
     });
-    if (!my_turn) return;
+    if (!my_turn) {
+        return;
+    }
     waiting_input = true;
 
     if (!waiting_input) return;

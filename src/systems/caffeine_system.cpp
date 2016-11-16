@@ -59,7 +59,7 @@ void caffeine_system::update(const double ms) {
         each<player_t, position_t>([&map] (entity_t &e, player_t &p, position_t &pos) {
             const int idx = mapidx(pos.x, pos.y, pos.level);
             if (map->has_coffee[idx]) {
-                // TODO: Console message
+                emit(log_message{LOG{}.text("You enjoy a cup of coffee.")->chars});
                 p.caffeine = 101;
                 emit(player_performed_action{});
             }
