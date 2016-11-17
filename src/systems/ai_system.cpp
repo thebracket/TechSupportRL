@@ -31,10 +31,11 @@ void ai_system::update(const double ms) {
             }
         });
 
-        each<nuisance_ai, viewshed_t, despair_attack_t>([&player_pos, &idx] (entity_t &e, nuisance_ai &ai, viewshed_t &view, despair_attack_t &attack) {
+        each<nuisance_ai, viewshed_t, despair_attack_t, position_t>([&player_pos, &idx] (entity_t &e, nuisance_ai &ai, viewshed_t &view, despair_attack_t &attack, position_t &pos) {
             bool attacked = false;
             for (const int &loc : view.visible_tiles) {
-                if (loc == idx) {
+                const float distance = distance2d(player_pos->x, player_pos->y, pos.x, pos.y);
+                if (loc == idx && distance < 1.5F) {
                     // Attack!
                     int id = rng.roll_dice(1, attack.attack_types.size())-1;
                     if (attack.attack_types.size()==1) id = 0;
@@ -42,6 +43,9 @@ void ai_system::update(const double ms) {
                     const int damage = attack.attack_types[id].second;
                     emit(inflict_despair{message, damage, e.id});
                     attacked = true;
+                } else if (loc == idx && rng.roll_dice(1,6)>1) {
+                    emit(entity_wants_to_approach_player{e.id});
+                    emit(log_message{LOG().name(e.id)->text(" has focused on you!")->chars});                    
                 }
             }
 

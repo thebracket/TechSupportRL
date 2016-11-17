@@ -17,6 +17,7 @@ void movement_system::configure() {
         });
     });
     subscribe_mbox<entity_wants_to_move_randomly>();
+    subscribe_mbox<entity_wants_to_approach_player>();
 }
 
 void movement_system::update(const double ms) {
@@ -45,6 +46,22 @@ void movement_system::update(const double ms) {
 
             if (idx != mapidx(pos.x,pos.y,pos.level)) emit(player_performed_action{});
         });
+    }
+
+    std::queue<entity_wants_to_approach_player> * approach_reqs = mbox<entity_wants_to_approach_player>();
+    while (!approach_reqs->empty()) {
+        entity_wants_to_approach_player e = approach_reqs->front();
+        approach_reqs->pop();
+
+        position_t * player_pos;
+        each<player_t, position_t>([&player_pos] (entity_t &e, player_t &p, position_t &pos) { player_pos = &pos; });
+        auto pos = entity(e.mover_id)->component<position_t>();
+        if (!pos) break;
+
+        if (player_pos->x > pos->x && !map->solid[mapidx(pos->x+1, pos->y, pos->level)]) ++pos->x;
+        if (player_pos->x < pos->x && !map->solid[mapidx(pos->x-1, pos->y, pos->level)]) --pos->x;
+        if (player_pos->y > pos->y && !map->solid[mapidx(pos->x, pos->y+1, pos->level)]) ++pos->y;
+        if (player_pos->y < pos->y && !map->solid[mapidx(pos->x, pos->y-1, pos->level)]) --pos->y;
     }
 
     std::queue<entity_wants_to_move_randomly> * rmove_requests = mbox<entity_wants_to_move_randomly>();

@@ -17,6 +17,12 @@ struct entity_wants_to_move_randomly : rltk::base_message_t {
     std::size_t entity_id;
 };
 
+struct entity_wants_to_approach_player : rltk::base_message_t {
+    entity_wants_to_approach_player() {}
+    entity_wants_to_approach_player(const std::size_t mover) : mover_id(mover) {}
+    std::size_t mover_id;
+};
+
 struct player_performed_action : rltk::base_message_t {
 };
 
