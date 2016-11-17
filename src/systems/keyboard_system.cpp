@@ -11,25 +11,6 @@ void keyboard_system::configure() {
 }
 
 void keyboard_system::update(const double ms) {
-    bool tick = false;
-    std::queue<tick_message> * ticks = mbox<tick_message>();
-    while (!ticks->empty()) {
-        ticks->pop();
-        tick = true;
-    }
-
-    bool my_turn = false;
-    each<player_t>([&my_turn] (entity_t &e, player_t &p) {
-        --p.initiative;
-        if (p.initiative < 1) my_turn = true;
-    });
-    if (!my_turn) {
-        return;
-    }
-    waiting_input = true;
-
-    if (!waiting_input) return;
-
 
     std::queue<key_pressed_t> * messages = mbox<key_pressed_t>();
     while (!messages->empty()) {

@@ -26,7 +26,7 @@ void caffeine_system::update(const double ms) {
         actions->pop();
 
         each<player_t>([] (entity_t &e, player_t &p) {
-            if (p.gait == RUNNING) {
+            if (p.gait == SNEAKING) {
                 decrement_caffeine(p);
                 decrement_caffeine(p);
             } else {

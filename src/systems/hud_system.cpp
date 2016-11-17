@@ -47,7 +47,6 @@ void hud_system::update(const double ms) {
         switch (p.gait) {
             case SNEAKING : layer(2)->control<gui_static_text_t>(GUI_GAIT)->text = "(G) - Sneaking"; break;
             case WALKING : layer(2)->control<gui_static_text_t>(GUI_GAIT)->text = "(G) - Walking"; break;
-            case RUNNING : layer(2)->control<gui_static_text_t>(GUI_GAIT)->text = "(G) - Running"; break;
         }
 
         each<map_t>([&pos] (entity_t &ent, map_t &map) {

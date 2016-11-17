@@ -17,24 +17,9 @@ void time_system::update(const double ms) {
         emit_deferred(player_performed_action{});
     }
 
-    if (!waiting_input) {
-        time_accumulator += ms;
-        if (time_accumulator > frame_time_ms) {
-            emit_deferred(tick_message{});
-            time_accumulator = 0.0;
-        }
-    }
-
-    std::queue<player_performed_action> * actions = mbox<player_performed_action>();
-    while (!actions->empty()) {
-        actions->pop();
-        each<player_t>([] (entity_t &e, player_t &p) {
-            switch (p.gait) {
-                case SNEAKING : p.initiative = rng.roll_dice(1,10)+7; break;
-                case WALKING : p.initiative = rng.roll_dice(1,8)+5; break;
-                case RUNNING : p.initiative = rng.roll_dice(1,6)+3; break;
-            }
-            waiting_input = false;
-        } );
+    time_accumulator += ms;
+    if (time_accumulator > frame_time_ms) {
+        emit_deferred(tick_message{});
+        time_accumulator = 0.0;
     }
 }

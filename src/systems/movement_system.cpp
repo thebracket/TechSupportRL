@@ -12,8 +12,6 @@ void movement_system::configure() {
             if (p.gait == SNEAKING) {
                 p.gait = WALKING;
             } else if (p.gait == WALKING) {
-                p.gait = RUNNING;
-            } else {
                 p.gait = SNEAKING;
             }
         });
