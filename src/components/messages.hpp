@@ -20,8 +20,8 @@ struct entity_wants_to_move_randomly : rltk::base_message_t {
 struct player_performed_action : rltk::base_message_t {
 };
 
-struct tick_message : rltk::base_message_t {
-};
+struct tick_message : rltk::base_message_t {};
+struct slow_tick_message : rltk::base_message_t {};
 
 struct player_changed_gait : rltk::base_message_t {};
 

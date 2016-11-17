@@ -1,20 +1,30 @@
 #include "render_system.hpp"
 #include "../components/components.hpp"
-#include <unordered_map>
+#include <boost/container/flat_map.hpp>
+#include <vector>
 
 using namespace rltk;
 
 void render_system::configure() {
 	system_name = "Render System";
+	subscribe<slow_tick_message>([this] (slow_tick_message msg) {
+		++ticker;
+	});
 }
 
 void render_system::update(const double ms) {
 	term(1)->clear();
 
 	// Build the renderables list
-	std::unordered_map<int, vchar> renderables;
+	boost::container::flat_map<int, std::vector<vchar>> renderables;
 	each<position_t, renderable_t>([&renderables] (entity_t &e, position_t &pos, renderable_t &r) {
-		renderables[mapidx(pos.x, pos.y, pos.level)] = vchar{r.glyph, r.color, rltk::colors::BLACK};
+		const int idx = mapidx(pos.x, pos.y, pos.level);
+		auto finder = renderables.find(idx);
+		if (finder == renderables.end()) {
+			renderables[idx] = std::vector<vchar>{ vchar{r.glyph, r.color, rltk::colors::BLACK} };
+		} else {
+			renderables[idx].push_back( vchar{r.glyph, r.color, rltk::colors::BLACK} );
+		}
 	});
 
 	// Locate the player and therefore the camera
@@ -47,9 +57,10 @@ void render_system::update(const double ms) {
 
 				auto finder = renderables.find(idx);
 				if (finder != renderables.end()) {
-					col = finder->second.foreground;
-					bg = finder->second.background;
-					glyph = finder->second.glyph;
+					const std::size_t rotator = ticker % finder->second.size();
+					col = finder->second[rotator].foreground;
+					bg = finder->second[rotator].background;
+					glyph = finder->second[rotator].glyph;
 				} else {
 					col = rltk::colors::WHITE;
 					bg = rltk::colors::BLACK;
