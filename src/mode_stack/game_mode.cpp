@@ -113,7 +113,8 @@ void build_lobby(map_t &map) {
 							{ "says \"I'll be with you in a minute.\"", 1 },
 							{ "says \"Don't worry, WidgetCorp will find a use for you.\"", 1 },
 							{ "says \"I'm sure I'll find you in the database eventually.\"", 1 },
-							{ "says \"Welcome to WidgetCorp. Please wait.\"", 1 }
+							{ "says \"Welcome to WidgetCorp. Please wait.\"", 1 },
+							{ "says \"Maybe you can tell me why my cat pictures are loading so slowly?.\"", 1 }
 						}});
 				} break;
 				case 'g' : {
@@ -133,7 +134,9 @@ void build_lobby(map_t &map) {
 						->assign(nuisance_ai{})
 						->assign(viewshed_t{6})
 						->assign(despair_attack_t{{
-							{ "tries to sell you some Widgets", 1 }
+							{ "tries to sell you some Widgets.", 1 },
+							{ "goes on a long spiel about the virtue of their latest project.", 1 },
+							{ "doesn't seem to know what they are selling, but are trying really hard to sell it anyway.'", 1 },
 						}});
 				} break;
 				case 'c' : {
@@ -144,7 +147,8 @@ void build_lobby(map_t &map) {
 						->assign(viewshed_t{6})
 						->assign(despair_attack_t{{
 							{ "says \"I've been here an hour, you know!\"", 1 },
-							{ "says \"You probably can't help me. Nobody can help me.\"", 1 }
+							{ "says \"You probably can't help me. Nobody can help me.\"", 1 },
+							{ "says \"Your products are awful! Find me a manager!\"", 1 }
 						}});
 				} break;
 				case ' ' : {} break;

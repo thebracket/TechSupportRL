@@ -25,7 +25,7 @@ void ai_system::update(const double ms) {
                 for (const int &loc : view.visible_tiles) {
                     if (loc == idx) {
                         // Attack!
-                        int id = rng.roll_dice(1, attack.attack_types.size()-1);
+                        int id = rng.roll_dice(1, attack.attack_types.size())-1;
                         if (attack.attack_types.size()==1) id = 0;
                         const std::string message = attack.attack_types[id].first;
                         const int damage = attack.attack_types[id].second;
@@ -44,7 +44,7 @@ void ai_system::update(const double ms) {
                 for (const int &loc : view.visible_tiles) {
                     if (loc == idx) {
                         // Attack!
-                        int id = rng.roll_dice(1, attack.attack_types.size()-1);
+                        int id = rng.roll_dice(1, attack.attack_types.size())-1;
                         if (attack.attack_types.size()==1) id = 0;
                         const std::string message = attack.attack_types[id].first;
                         const int damage = attack.attack_types[id].second;

@@ -24,7 +24,7 @@ void visibility_system::update(const double ms) {
 
         int range = view.range;
         if (gait == SNEAKING) range = range / 2;
-        visibility_sweep_2d<position_t, navigator_helper>(pos, view.range, [&pos, &view] (position_t reveal) {
+        visibility_sweep_2d<position_t, navigator_helper>(pos, range, [&pos, &view] (position_t reveal) {
             if (reveal.x < 0 || reveal.x > MAP_WIDTH-1 || reveal.y < 0 || reveal.y > MAP_HEIGHT-1) return;
 
             const int idx = mapidx(reveal.x, reveal.y, pos.level);
@@ -41,6 +41,7 @@ void visibility_system::update(const double ms) {
 
     // Color in the map
     std::fill(map->visible.begin(), map->visible.end(), false);
+    std::fill(map->visible_baddie.begin(), map->visible_baddie.end(), false);
     each<viewshed_t>([&map] (entity_t &e, viewshed_t &v) {
         if (v.good_guy) {
             for (auto it=v.visible_tiles.begin(); it!=v.visible_tiles.end(); ++it) {
