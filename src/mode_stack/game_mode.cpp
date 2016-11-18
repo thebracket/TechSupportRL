@@ -303,9 +303,20 @@ void fill_all_except_stair_circle(map_t &map, const int &level) {
 }
 
 void build_rnd_caverns(map_t &map) {
-	// Start by filling in the whole thing except a circle around the stairs
-	fill_all_except_stair_circle(map, 0);
-	add_coffee_machine(MAP_WIDTH/2, MAP_HEIGHT/2, 0, map);
+	xp::rex_sprite lobby("assets/researchlab.xp");
+	for (int y=0; y<MAP_HEIGHT; ++y) {
+		for (int x=0; x<MAP_WIDTH; ++x) {
+			const vchar * c = lobby.get_tile(0,x,y);
+			const int idx = mapidx(x,y,0);
+
+			// Tiles
+			set_map_tile(*c, x, y, 0, map);
+
+			// Spawners
+			const vchar * spawner = lobby.get_tile(1,x,y);
+			spawn_npc(spawner->glyph, x, y, 0);
+		}
+	}
 }
 
 void build_facilities_caverns(map_t &map) {
