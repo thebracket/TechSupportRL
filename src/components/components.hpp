@@ -14,3 +14,7 @@
 #include "static_ai.hpp"
 #include "logger.hpp"
 #include "despair_attack.hpp"
+#include "switch.hpp"
+#include "server.hpp"
+#include "printer.hpp"
+

@@ -29,6 +29,253 @@ void build_stairs(map_t &map) {
 	}
 }
 
+void spawn_receptionist(const int &x, const int &y, const int &z) {
+	const int roll = rng.roll_dice(1,4);
+
+	switch (roll) {
+		case 1 : {
+			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Cranky Receptionist"})
+				->assign(static_ai{})
+				->assign(viewshed_t{2})
+				->assign(despair_attack_t{{
+					{ "says \"I'll be with you in a minute.\"", 1 },
+					{ "says \"Don't worry, WidgetCorp will find a use for you.\"", 1 },
+					{ "says \"I'm sure I'll find you in the database eventually.\"", 1 },
+					{ "says \"Welcome to WidgetCorp. Please wait.\"", 1 },
+					{ "says \"Maybe you can tell me why my cat pictures are loading so slowly?\"", 1 }
+				}});
+		} break;
+		case 2 : {
+			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Bored Receptionist"})
+				->assign(static_ai{})
+				->assign(viewshed_t{2})
+				->assign(despair_attack_t{{
+					{ "says \"Do you work here? I didn't recognize you, but we get through so many people.\"", 1 },
+					{ "says \"One sec, I'll help you as soon as I finish this level.\"", 1 },
+					{ "says \"I'm sure I'll find you in the database eventually.\"", 1 },
+					{ "says \"Welcome to WidgetCorp. I'm sure one of the others can help you\"", 1 },
+					{ "says \"Maybe you can tell me why my cat pictures are loading so slowly?\"", 1 }
+				}});
+		} break;
+		case 3 : {
+			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Flirty Receptionist"})
+				->assign(static_ai{})
+				->assign(viewshed_t{2})
+				->assign(despair_attack_t{{
+					{ "says \"When you're older, you should give me your number.\"", 1 },
+					{ "says \"Why is this dating site loading so slowly?\"", 1 },
+					{ "says \"Did you block my Facebook again?\"", 1 },
+					{ "says \"Hey handsome. Look me up some time, if they ever let you out of here!\"", 1 }
+				}});
+		} break;
+		case 4 : {
+			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Ancient Receptionist"})
+				->assign(static_ai{})
+				->assign(viewshed_t{2})
+				->assign(despair_attack_t{{
+					{ "says \"You remind me of my grandson. He worked in IT here, once. He moved onto a real job.\"", 1 },
+					{ "randomly tells you a very long tale of woe involving multiple family members and a kitten.", 1 },
+					{ "says \"Did you block my Facebook again?\"", 1 },
+					{ "says \"Back in my day, we had customers!\"", 1 }
+				}});
+		} break;
+	}
+}
+
+void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level) {
+	switch (type) {
+		case 'r' : {
+			spawn_receptionist(x,y,level);
+		} break;
+		case 'g' : {
+			create_entity()->assign(renderable_t{'g', rltk::colors::Pink})
+				->assign(position_t{x,y,level})
+				->assign(name_t{"Unnaturally Happy Greeter"})
+				->assign(static_ai{})
+				->assign(viewshed_t{2})
+				->assign(despair_attack_t{{
+					{ "chirps \"Welcome to WidgetCorp. I hope you enjoy your shopping experience!\"", 1 }
+				}});
+		} break;
+		case 'v' : {
+			create_entity()->assign(renderable_t{'v', rltk::colors::Pink})
+				->assign(position_t{x,y,level})
+				->assign(name_t{"Widget Vendor"})
+				->assign(nuisance_ai{})
+				->assign(viewshed_t{6})
+				->assign(despair_attack_t{{
+					{ "tries to sell you some Widgets.", 1 },
+					{ "goes on a long spiel about the virtue of their latest project.", 1 },
+					{ "doesn't seem to know what they are selling, but are trying really hard to sell it anyway.'", 1 },
+				}});
+		} break;
+		case 'c' : {
+			create_entity()->assign(renderable_t{'c', rltk::colors::BLUE})
+				->assign(position_t{x,y,level})
+				->assign(name_t{"Annoyed Customer"})
+				->assign(nuisance_ai{})
+				->assign(viewshed_t{6})
+				->assign(despair_attack_t{{
+					{ "says \"I've been here an hour, you know!\"", 1 },
+					{ "says \"You probably can't help me. Nobody can help me.\"", 1 },
+					{ "says \"Your products are awful! Find me a manager!\"", 1 }
+				}});
+		} break;
+		case 'G' : {
+			create_entity()->assign(renderable_t{'G', rltk::colors::RED})
+				->assign(position_t{x,y,level})
+				->assign(name_t{"Bearded UNIX Guru"})
+				->assign(static_ai{})
+				->assign(viewshed_t{5})
+				->assign(despair_attack_t{{
+					{ "says \"We wouldn't have these problems if we ran GNU/Linux.\"", 1 },
+					{ "says \"Take it from me, kid. This Windows thing is a passing fad.\"", 1 },
+					{ "says \"An iPad? You need to replace that with something open source!\"", 1 },
+					{ "says \"I blame sunspots.\"", 1 },
+					{ "says \"When you get a chance, replace all the routers with Vyatta.\"", 1 },
+					{ "says \"Now Mel, he was a REAL programmer. We need more Mels.\"", 1 }
+				}});
+		} break;
+		case 't' : {
+			create_entity()->assign(renderable_t{'g', rltk::colors::BLUE})
+				->assign(position_t{x,y,level})
+				->assign(name_t{"Tired IT Tech"})
+				->assign(static_ai{})
+				->assign(viewshed_t{3})
+				->assign(despair_attack_t{{
+					{ "says \"Have you tried turning it off and then back on again?\"", 1 }
+				}});
+		} break;
+		case ' ' : {} break;
+		default : {
+			std::cout << "Unknown REX entity: " << +type << "\n";
+		}
+	}
+}
+
+void add_coffee_machine(const int &x, const int &y, const int &z, map_t &map) {
+	const int idx = mapidx(x,y,z);
+	map.tile_type[idx] = tiles::FLOOR;
+	create_entity()->assign(renderable_t{232, rltk::colors::YELLOW})
+		->assign(position_t{x,y,z})
+		->assign(name_t{"Coffee Machine"})
+		->assign(coffee_machine{})
+		->assign(blocker_t{});
+}
+
+void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_t &map) {
+	const int idx = mapidx(x,y,z);
+	switch (c.glyph) {
+		case '.' : map.tile_type[idx] = tiles::FLOOR; break;
+		case '^' : map.tile_type[idx] = tiles::FREEDOM; break;
+		case '"' : map.tile_type[idx] = tiles::GRASS; break;
+		case '~' : map.tile_type[idx] = tiles::PATH; break;
+		case '<' : map.tile_type[idx] = tiles::UP; break;
+		case '>' : map.tile_type[idx] = tiles::DOWN; break;
+		case 219 : map.tile_type[idx] = tiles::WALL; break;
+		case 176 : map.tile_type[idx] = tiles::WATER; break;
+		case 197 : map.tile_type[idx] = tiles::GLASS_DOOR; break;
+		case 214 : {
+			// Chair
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{194, rltk::colors::LightSkyBlue})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Office Chair"});
+		} break;
+		case 203 : {
+			// Table
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{203, rltk::colors::Brown})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Office Table"})
+				->assign(blocker_t{});
+		} break;
+		case 127 : {
+			// Toilet
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{239, rltk::colors::Blue})
+			->assign(position_t{x,y,z})
+			->assign(name_t{"Toilet"});
+		} break;
+		case 202 : {
+			// Sink
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{233, rltk::colors::Blue})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Sink"})
+				->assign(blocker_t{});
+		} break;
+		case 167 : {
+			// Coffee Station
+			add_coffee_machine(x,y,z,map);
+		} break;
+		case 255 : {
+			// Computer
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{228, rltk::colors::GREEN})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Work Computer"})
+				->assign(computer_t{})
+				->assign(blocker_t{});
+		} break;
+		case 254 : {
+			// Server
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{254, rltk::colors::GREEN})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Windows Server"})
+				->assign(server_t{})
+				->assign(blocker_t{});
+		} break;
+		case 175 : {
+			// Switch
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{175, rltk::colors::GREEN})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Expensive Router"})
+				->assign(switch_t{})
+				->assign(blocker_t{});
+		} break;
+		case 158 : {
+			// Printer
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{158, rltk::colors::GREEN})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Printer"})
+				->assign(printer_t{})
+				->assign(blocker_t{});
+		} break;
+		case 'P' : {
+			// Printer Supplies
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{'P', rltk::colors::GREEN})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Printer Supplies"})
+				->assign(blocker_t{});
+		} break;
+		case 'C' : {
+			// Computer Supplies
+			map.tile_type[idx] = tiles::FLOOR;
+			create_entity()->assign(renderable_t{'C', rltk::colors::GREEN})
+				->assign(position_t{x,y,z})
+				->assign(name_t{"Computer Parts"})
+				->assign(blocker_t{});
+		} break;
+		default  : {
+			map.tile_type[idx] = tiles::WALL;
+			std::cout << "Unknown REX char: " << +c.glyph << "\n"; 
+		} break;
+	}
+}
+
 void build_lobby(map_t &map) {
 	xp::rex_sprite lobby("assets/lobby.xp");
 	for (int y=0; y<MAP_HEIGHT; ++y) {
@@ -36,126 +283,50 @@ void build_lobby(map_t &map) {
 			const vchar * c = lobby.get_tile(0,x,y);
 			const int idx = mapidx(x,y,3);
 
-			switch (c->glyph) {
-				case '.' : map.tile_type[idx] = tiles::FLOOR; break;
-				case '^' : map.tile_type[idx] = tiles::FREEDOM; break;
-				case '"' : map.tile_type[idx] = tiles::GRASS; break;
-				case '~' : map.tile_type[idx] = tiles::PATH; break;
-				case '<' : map.tile_type[idx] = tiles::UP; break;
-				case '>' : map.tile_type[idx] = tiles::DOWN; break;
-				case 219 : map.tile_type[idx] = tiles::WALL; break;
-				case 176 : map.tile_type[idx] = tiles::WATER; break;
-				case 197 : map.tile_type[idx] = tiles::GLASS_DOOR; break;
-				case 214 : {
-					// Chair
-					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{194, rltk::colors::LightSkyBlue})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Office Chair"});
-				} break;
-				case 203 : {
-					// Table
-					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{203, rltk::colors::Brown})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Office Table"})
-						->assign(blocker_t{});
-				} break;
-				case 127 : {
-					// Toilet
-					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{239, rltk::colors::Blue})
-					->assign(position_t{x,y,3})
-					->assign(name_t{"Toilet"});
-				} break;
-				case 202 : {
-					// Sink
-					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{233, rltk::colors::Blue})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Sink"})
-						->assign(blocker_t{});
-				} break;
-				case 167 : {
-					// Coffee Station
-					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{232, rltk::colors::YELLOW})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Coffee Machine"})
-						->assign(coffee_machine{})
-						->assign(blocker_t{});
-				} break;
-				case 255 : {
-					// Computer
-					map.tile_type[idx] = tiles::FLOOR;
-					create_entity()->assign(renderable_t{228, rltk::colors::GREEN})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Work Computer"})
-						->assign(computer_t{})
-						->assign(blocker_t{});
-				} break;
-				default  : {
-					map.tile_type[idx] = tiles::WALL;
-					std::cout << "Unknown REX char: " << +c->glyph << "\n"; 
-				} break;
-			}
+			// Tiles
+			set_map_tile(*c, x, y, 3, map);
 
 			// Spawners
 			const vchar * spawner = lobby.get_tile(1,x,y);
-			switch (spawner->glyph) {
-				case 'r' : {
-					create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Cranky Receptionist"})
-						->assign(static_ai{})
-						->assign(viewshed_t{2})
-						->assign(despair_attack_t{{
-							{ "says \"I'll be with you in a minute.\"", 1 },
-							{ "says \"Don't worry, WidgetCorp will find a use for you.\"", 1 },
-							{ "says \"I'm sure I'll find you in the database eventually.\"", 1 },
-							{ "says \"Welcome to WidgetCorp. Please wait.\"", 1 },
-							{ "says \"Maybe you can tell me why my cat pictures are loading so slowly?.\"", 1 }
-						}});
-				} break;
-				case 'g' : {
-					create_entity()->assign(renderable_t{'g', rltk::colors::Pink})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Unnaturally Happy Greeter"})
-						->assign(static_ai{})
-						->assign(viewshed_t{2})
-						->assign(despair_attack_t{{
-							{ "chirps \"Welcome to WidgetCorp. I hope you enjoy your shopping experience!\"", 1 }
-						}});
-				} break;
-				case 'v' : {
-					create_entity()->assign(renderable_t{'v', rltk::colors::Pink})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Widget Vendor"})
-						->assign(nuisance_ai{})
-						->assign(viewshed_t{6})
-						->assign(despair_attack_t{{
-							{ "tries to sell you some Widgets.", 1 },
-							{ "goes on a long spiel about the virtue of their latest project.", 1 },
-							{ "doesn't seem to know what they are selling, but are trying really hard to sell it anyway.'", 1 },
-						}});
-				} break;
-				case 'c' : {
-					create_entity()->assign(renderable_t{'c', rltk::colors::BLUE})
-						->assign(position_t{x,y,3})
-						->assign(name_t{"Annoyed Customer"})
-						->assign(nuisance_ai{})
-						->assign(viewshed_t{6})
-						->assign(despair_attack_t{{
-							{ "says \"I've been here an hour, you know!\"", 1 },
-							{ "says \"You probably can't help me. Nobody can help me.\"", 1 },
-							{ "says \"Your products are awful! Find me a manager!\"", 1 }
-						}});
-				} break;
-				case ' ' : {} break;
-				default : {
-					std::cout << "Unknown REX char: " << +spawner->glyph << "\n";
-				}
-			}
+			spawn_npc(spawner->glyph, x, y, 3);
+		}
+	}
+}
+
+void fill_all_except_stair_circle(map_t &map, const int &level) {
+	for (int y=0; y<MAP_HEIGHT; ++y) {
+		for (int x=0; x<MAP_WIDTH; ++x) {
+			const float distance = distance2d(x,y, MAP_WIDTH/2, MAP_HEIGHT/2);
+			if (distance > 5.0F) map.tile_type[mapidx(x,y,level)] = tiles::WALL;
+		}
+	}
+}
+
+void build_rnd_caverns(map_t &map) {
+	// Start by filling in the whole thing except a circle around the stairs
+	fill_all_except_stair_circle(map, 0);
+	add_coffee_machine(MAP_WIDTH/2, MAP_HEIGHT/2, 0, map);
+}
+
+void build_facilities_caverns(map_t &map) {
+	// Start by filling in the whole thing except a circle around the stairs
+	fill_all_except_stair_circle(map, 1);
+	add_coffee_machine(MAP_WIDTH/2, MAP_HEIGHT/2, 1, map);
+}
+
+void build_it_caverns(map_t &map) {
+	xp::rex_sprite lobby("assets/itcave.xp");
+	for (int y=0; y<MAP_HEIGHT; ++y) {
+		for (int x=0; x<MAP_WIDTH; ++x) {
+			const vchar * c = lobby.get_tile(0,x,y);
+			const int idx = mapidx(x,y,2);
+
+			// Tiles
+			set_map_tile(*c, x, y, 2, map);
+
+			// Spawners
+			const vchar * spawner = lobby.get_tile(1,x,y);
+			spawn_npc(spawner->glyph, x, y, 2);
 		}
 	}
 }
@@ -180,6 +351,9 @@ void game_mode::build_game() {
 	}
 
 	build_stairs(map);
+	build_rnd_caverns(map);
+	build_facilities_caverns(map);
+	build_it_caverns(map);
 	build_lobby(map);
 
 	// Walkability

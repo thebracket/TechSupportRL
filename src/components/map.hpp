@@ -40,7 +40,7 @@ struct map_t {
 
 	std::vector<std::string> layer_names = {
 		"Research & Development Caverns",
-		"Facilities & Security",
+		"Facilities & Security Dungeon",
 		"The IT Cave",
 		"Surprisingly Nice Lobby",
 		"Call-Center of Despair",
