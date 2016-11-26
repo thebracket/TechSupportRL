@@ -375,25 +375,33 @@ void game_mode::build_game() {
 		->assign(player_t{})
 		->assign(renderable_t{})
 		->assign(viewshed_t{8, true})
-		->assign(logger_t{});
+		->assign(logger_t{})
+        ->assign(available_missions_t{});
 }
 
-void game_mode::on_init() {
-	quitting = false;
+bool has_initialized = false;
 
-	add_system<time_system>();
-	add_system<blocking_system>();
-	add_system<keyboard_system>();
-	add_system<ai_system>();
-	add_system<movement_system>();
-	add_system<caffeine_system>();
-	add_system<despair_system>();
-	add_system<visibility_system>();
-	add_system<render_system>();
-	add_system<hud_system>();
-	add_system<log_system>();
-	ecs_configure();
-	build_game();
+void game_mode::on_init() {
+    if (!has_initialized) {
+        quitting = false;
+
+        add_system<time_system>();
+        add_system<mission_system>();
+        add_system<blocking_system>();
+        add_system<keyboard_system>();
+        add_system<ai_system>();
+        add_system<movement_system>();
+        add_system<caffeine_system>();
+        add_system<despair_system>();
+        add_system<visibility_system>();
+        add_system<render_system>();
+        add_system<hud_system>();
+        add_system<log_system>();
+        ecs_configure();
+        build_game();
+
+        has_initialized = true;
+    }
 }
 
 void game_mode::on_exit() {
@@ -410,6 +418,7 @@ tick_result_t game_mode::tick(const double ms) {
 		case QUIT : return POP;
 		case CAFFEINE_FAIL : return POP_NO_CAFFEINE;
 		case DESPAIR_FAIL : return POP_NO_HOPE;
+		case TABLET : { quitting = false; return PUSH_TABLET; }
 		}
 	} else {
 		return CONTINUE;

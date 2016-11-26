@@ -17,4 +17,6 @@
 #include "switch.hpp"
 #include "server.hpp"
 #include "printer.hpp"
+#include "mission.hpp"
+#include "available_missions.hpp"
 

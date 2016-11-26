@@ -22,7 +22,8 @@ inline boost::optional<name_t &> get_name_component(const std::size_t &entity_id
 
 LOG * LOG::name(const std::size_t &entity_id) {
     col(rltk::colors::MAGENTA);
-    text(get_name_component(entity_id)->name);
+    auto name = get_name_component(entity_id);
+    if (name) text(name->name);
     col(rltk::colors::WHITE);
     return this;
 }

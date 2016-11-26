@@ -11,3 +11,4 @@
 #include "ai_system.hpp"
 #include "log_system.hpp"
 #include "despair_system.hpp"
+#include "mission_system.hpp"
