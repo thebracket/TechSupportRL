@@ -34,6 +34,7 @@ tick_result_t menu_mode::tick(const double ms) {
 			if (!save_exists_cache && selection == 0) ++selection;
 			key_delay = KEY_PAUSE;
 		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
+			if (selection == 0) return PUSH_LOAD_GAME;
 			if (selection == 1) return PUSH_NEW_GAME;
 			if (selection == 2) return POP;
 		}
@@ -55,7 +56,11 @@ tick_result_t menu_mode::tick(const double ms) {
 		} else if (i > 0) {
 			term(2)->print_center(y, opt);
 		} else {
-			term(2)->print_center(y, opt, rltk::colors::GREY);
+            if (save_exists_cache) {
+                term(2)->print_center(y, opt);
+            } else {
+                term(2)->print_center(y, opt, rltk::colors::GREY);
+            }
 		}
 		++y;
 		++i;

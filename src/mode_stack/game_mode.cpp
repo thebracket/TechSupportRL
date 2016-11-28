@@ -3,6 +3,7 @@
 #include <rltk.hpp>
 #include "../systems/systems.hpp"
 #include "../components/components.hpp"
+#include "../components/loader.hpp"
 
 using namespace rltk;
 
@@ -48,7 +49,7 @@ void spawn_receptionist(const int &x, const int &y, const int &z) {
 				}});
 		} break;
 		case 2 : {
-			create_entity()->assign(renderable_t{271, rltk::colors::Pink})
+			create_entity()->assign(renderable_t{271, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Bored Receptionist"})
 				->assign(static_ai{})
@@ -398,7 +399,14 @@ void game_mode::on_init() {
         add_system<hud_system>();
         add_system<log_system>();
         ecs_configure();
-        build_game();
+
+        if (!loading) {
+            build_game();
+        } else {
+            std::unique_ptr<std::ifstream> lbfile = std::make_unique<std::ifstream>(filename, std::ios::in | std::ios::binary);
+            ecs_load(std::move(lbfile), component_loader_xml);
+            if (boost::filesystem::exists(filename)) boost::filesystem::remove(filename);
+        }
 
         has_initialized = true;
     }
@@ -407,6 +415,9 @@ void game_mode::on_init() {
 void game_mode::on_exit() {
 	// ECS stop
 	delete_all_entities();
+    delete_all_systems();
+    ecs_garbage_collect();
+    has_initialized = false;
 }
 
 tick_result_t game_mode::tick(const double ms) {
@@ -419,6 +430,13 @@ tick_result_t game_mode::tick(const double ms) {
 		case CAFFEINE_FAIL : return POP_NO_CAFFEINE;
 		case DESPAIR_FAIL : return POP_NO_HOPE;
 		case TABLET : { quitting = false; return PUSH_TABLET; }
+        case SAVEQUIT : {
+            const std::string save_filename = "savegame.dat";
+            if (boost::filesystem::exists(save_filename)) boost::filesystem::remove(save_filename);
+            std::unique_ptr<std::ofstream> lbfile = std::make_unique<std::ofstream>(save_filename, std::ios::out | std::ios::binary);
+            ecs_save(std::move(lbfile));
+            return POP;
+        }
 		}
 	} else {
 		return CONTINUE;

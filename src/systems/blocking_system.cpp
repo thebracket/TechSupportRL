@@ -13,8 +13,9 @@ void blocking_system::update(const double ms) {
     while (!ticks->empty()) {
         ticks->pop();
 
-        map_t * map;
+        map_t * map = nullptr;
         each<map_t>([&map] (entity_t &e, map_t &m) { map = &m; });
+        assert(map != nullptr);
         map->calculate_walkability();
         each<blocker_t, position_t>([&map] (entity_t &e, blocker_t &b, position_t &pos) {
             const int idx = mapidx(pos.x, pos.y, pos.level);

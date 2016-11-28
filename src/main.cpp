@@ -27,6 +27,9 @@ void tick(double duration_ms) {
 		mode_stack.emplace(std::make_unique<game_mode>());
 		mode_stack.emplace(std::make_unique<intro_mode>());
 		mode_stack.top()->on_init();
+    } else if (result == PUSH_LOAD_GAME) {
+        mode_stack.emplace(std::make_unique<game_mode>("savegame.dat"));
+        mode_stack.top()->on_init();
 	} else if (result == POP_NO_CAFFEINE) {
 		mode_stack.top()->on_exit();
 		mode_stack.pop();

@@ -11,10 +11,11 @@ void visibility_system::configure() {
 }
 
 void visibility_system::update(const double ms) {
-    map_t * map;
+    map_t * map = nullptr;
     each<map_t>([&map] (entity_t &e, map_t &m) {
         map = &m;
     });
+    assert(map != nullptr);
 
     // Update viewsheds
     gait_t gait;

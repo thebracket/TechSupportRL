@@ -18,7 +18,10 @@ void keyboard_system::update(const double ms) {
         messages->pop();        
 
         // Quit game
-        if (e.event.key.code == sf::Keyboard::Q) quitting = true;
+        if (e.event.key.code == sf::Keyboard::Q) {
+            quitting = true;
+            quit_reason = SAVEQUIT;
+        }
 
         // Num pad
         if (e.event.key.code == sf::Keyboard::Num8) emit_deferred(player_wants_to_move_msg(NORTH));
