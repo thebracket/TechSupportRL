@@ -34,7 +34,7 @@ void spawn_receptionist(const int &x, const int &y, const int &z) {
 
 	switch (roll) {
 		case 1 : {
-			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+			create_entity()->assign(renderable_t{270, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Cranky Receptionist"})
 				->assign(static_ai{})
@@ -48,7 +48,7 @@ void spawn_receptionist(const int &x, const int &y, const int &z) {
 				}});
 		} break;
 		case 2 : {
-			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+			create_entity()->assign(renderable_t{271, rltk::colors::Pink})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Bored Receptionist"})
 				->assign(static_ai{})
@@ -62,7 +62,7 @@ void spawn_receptionist(const int &x, const int &y, const int &z) {
 				}});
 		} break;
 		case 3 : {
-			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+			create_entity()->assign(renderable_t{272, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Flirty Receptionist"})
 				->assign(static_ai{})
@@ -75,7 +75,7 @@ void spawn_receptionist(const int &x, const int &y, const int &z) {
 				}});
 		} break;
 		case 4 : {
-			create_entity()->assign(renderable_t{'r', rltk::colors::Pink})
+			create_entity()->assign(renderable_t{273, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Ancient Receptionist"})
 				->assign(static_ai{})
@@ -96,7 +96,7 @@ void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level
 			spawn_receptionist(x,y,level);
 		} break;
 		case 'g' : {
-			create_entity()->assign(renderable_t{'g', rltk::colors::Pink})
+			create_entity()->assign(renderable_t{265, rltk::colors::WHITE})
 				->assign(position_t{x,y,level})
 				->assign(name_t{"Unnaturally Happy Greeter"})
 				->assign(static_ai{})
@@ -106,7 +106,7 @@ void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level
 				}});
 		} break;
 		case 'v' : {
-			create_entity()->assign(renderable_t{'v', rltk::colors::Pink})
+			create_entity()->assign(renderable_t{266, rltk::colors::WHITE})
 				->assign(position_t{x,y,level})
 				->assign(name_t{"Widget Vendor"})
 				->assign(nuisance_ai{})
@@ -118,7 +118,7 @@ void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level
 				}});
 		} break;
 		case 'c' : {
-			create_entity()->assign(renderable_t{'c', rltk::colors::BLUE})
+			create_entity()->assign(renderable_t{267, rltk::colors::WHITE})
 				->assign(position_t{x,y,level})
 				->assign(name_t{"Annoyed Customer"})
 				->assign(nuisance_ai{})
@@ -130,7 +130,7 @@ void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level
 				}});
 		} break;
 		case 'G' : {
-			create_entity()->assign(renderable_t{'G', rltk::colors::RED})
+			create_entity()->assign(renderable_t{268, rltk::colors::WHITE})
 				->assign(position_t{x,y,level})
 				->assign(name_t{"Bearded UNIX Guru"})
 				->assign(static_ai{})
@@ -145,7 +145,7 @@ void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level
 				}});
 		} break;
 		case 't' : {
-			create_entity()->assign(renderable_t{'g', rltk::colors::BLUE})
+			create_entity()->assign(renderable_t{269, rltk::colors::WHITE})
 				->assign(position_t{x,y,level})
 				->assign(name_t{"Tired IT Tech"})
 				->assign(static_ai{})
@@ -164,7 +164,7 @@ void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level
 void add_coffee_machine(const int &x, const int &y, const int &z, map_t &map) {
 	const int idx = mapidx(x,y,z);
 	map.tile_type[idx] = tiles::FLOOR;
-	create_entity()->assign(renderable_t{232, rltk::colors::YELLOW})
+	create_entity()->assign(renderable_t{264, rltk::colors::WHITE})
 		->assign(position_t{x,y,z})
 		->assign(name_t{"Coffee Machine"})
 		->assign(coffee_machine{})
@@ -186,14 +186,14 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 214 : {
 			// Chair
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{194, rltk::colors::LightSkyBlue})
+			create_entity()->assign(renderable_t{274, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Office Chair"});
 		} break;
 		case 203 : {
 			// Table
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{203, rltk::colors::Brown})
+			create_entity()->assign(renderable_t{275, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Office Table"})
 				->assign(blocker_t{});
@@ -201,14 +201,14 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 127 : {
 			// Toilet
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{239, rltk::colors::Blue})
+			create_entity()->assign(renderable_t{276, rltk::colors::WHITE})
 			->assign(position_t{x,y,z})
 			->assign(name_t{"Toilet"});
 		} break;
 		case 202 : {
 			// Sink
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{233, rltk::colors::Blue})
+			create_entity()->assign(renderable_t{277, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Sink"})
 				->assign(blocker_t{});
@@ -220,7 +220,7 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 255 : {
 			// Computer
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{228, rltk::colors::GREEN})
+			create_entity()->assign(renderable_t{278, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Work Computer"})
 				->assign(computer_t{})
@@ -229,7 +229,7 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 254 : {
 			// Server
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{254, rltk::colors::GREEN})
+			create_entity()->assign(renderable_t{279, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Windows Server"})
 				->assign(server_t{})
@@ -238,7 +238,7 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 175 : {
 			// Switch
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{175, rltk::colors::GREEN})
+			create_entity()->assign(renderable_t{280, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Expensive Router"})
 				->assign(switch_t{})
@@ -247,7 +247,7 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 158 : {
 			// Printer
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{158, rltk::colors::GREEN})
+			create_entity()->assign(renderable_t{281, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Printer"})
 				->assign(printer_t{})
@@ -256,7 +256,7 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 'P' : {
 			// Printer Supplies
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{'P', rltk::colors::GREEN})
+			create_entity()->assign(renderable_t{282, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Printer Supplies"})
 				->assign(blocker_t{});
@@ -264,7 +264,7 @@ void set_map_tile(const vchar &c, const int &x, const int &y, const int &z, map_
 		case 'C' : {
 			// Computer Supplies
 			map.tile_type[idx] = tiles::FLOOR;
-			create_entity()->assign(renderable_t{'C', rltk::colors::GREEN})
+			create_entity()->assign(renderable_t{283, rltk::colors::WHITE})
 				->assign(position_t{x,y,z})
 				->assign(name_t{"Computer Parts"})
 				->assign(blocker_t{});

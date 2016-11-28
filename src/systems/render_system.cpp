@@ -90,7 +90,7 @@ void render_system::update(const double ms) {
 
 				color_t col = rltk::colors::WHITE;
 				color_t bg = rltk::colors::BLACK;
-				uint8_t glyph = '.';
+				uint16_t glyph = '.';
 
 				auto finder = renderables.find(idx);
 				if (finder != renderables.end()) {
@@ -104,15 +104,15 @@ void render_system::update(const double ms) {
 					glyph = '.';
 
 					switch (map->tile_type[idx]) {
-						case tiles::FLOOR : { col = rltk::colors::GREY; glyph = '.'; } break;
-						case tiles::WALL : { col = rltk::colors::GREY; glyph = 219; } break;
-						case tiles::UP : { col = rltk::colors::WHITE; glyph = '<'; } break;
-						case tiles::DOWN : { col = rltk::colors::WHITE; glyph = '>'; } break;
-						case tiles::GRASS : { col = rltk::colors::DARK_GREEN; glyph = '.'; } break;
-						case tiles::FREEDOM : { col = rltk::colors::LIGHT_GREEN; glyph = '^'; } break;
-						case tiles::PATH : { col = rltk::colors::GREY; glyph = '^'; } break;
-						case tiles::GLASS_DOOR : { col = rltk::colors::CYAN; glyph = 197; } break;
-						case tiles::WATER : { col = rltk::colors::BLUE; glyph = '~'; } break;
+						case tiles::FLOOR : { col = rltk::colors::WHITE; glyph = 256; } break;
+						case tiles::WALL : { col = rltk::colors::WHITE; glyph = 258; } break;
+						case tiles::UP : { col = rltk::colors::WHITE; glyph = 259; } break;
+						case tiles::DOWN : { col = rltk::colors::WHITE; glyph = 260; } break;
+						case tiles::GRASS : { col = rltk::colors::WHITE; glyph = 261; } break;
+						case tiles::FREEDOM : { col = rltk::colors::WHITE; glyph = 261; } break;
+						case tiles::PATH : { col = rltk::colors::WHITE; glyph = 262; } break;
+						case tiles::GLASS_DOOR : { col = rltk::colors::WHITE; glyph = 257; } break;
+						case tiles::WATER : { col = rltk::colors::WHITE; glyph = 263; } break;
 					}					
 					
 				}

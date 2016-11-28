@@ -130,6 +130,7 @@ void mission_system::update(const double ms) {
                     if (p.level > 4) {
                         quitting = true;
                         quit_reason = WINGAME;
+                        p.cost_savings = 0;
                     } else {
                         emit_deferred(log_message{LOG().col(rltk::colors::GREEN)->text("You have been promoted! You are one step closer to being paid for this.")->chars});
                     }
