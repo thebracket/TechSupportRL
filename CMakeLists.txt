@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project("TechSupportRL")
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/src/external/rltk/cmake_modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/SFML-2.4.1/cmake/Modules)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -Wpedantic -march=native -mtune=native -g")
