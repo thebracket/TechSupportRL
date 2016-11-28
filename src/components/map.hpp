@@ -31,14 +31,7 @@ inline int mapidx(const position_t &pos) {
         return mapidx(pos.x, pos.y, pos.level);
 }
 
-struct map_t {
-	std::vector<uint16_t> tile_type;
-	std::vector<bool> solid;
-	std::vector<bool> visible;
-	std::vector<bool> visible_baddie;
-	std::vector<bool> has_coffee;
-
-	std::vector<std::string> layer_names = {
+const std::vector<std::string> layer_names = {
 		"Research & Development Caverns",
 		"Facilities & Security Dungeon",
 		"The IT Cave",
@@ -49,7 +42,14 @@ struct map_t {
 		"Junior Management",
 		"Upper Management",
 		"Temple of the CEO"
-	};
+};
+
+struct map_t {
+	std::vector<uint16_t> tile_type;
+	std::vector<bool> solid;
+	std::vector<bool> visible;
+	std::vector<bool> visible_baddie;
+	std::vector<bool> has_coffee;
 
 	map_t() {
 		tile_type.resize(MAP_TILES_COUNT);

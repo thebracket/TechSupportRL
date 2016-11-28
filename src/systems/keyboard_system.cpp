@@ -49,6 +49,10 @@ void keyboard_system::update(const double ms) {
 
         // Drinking
         if (e.event.key.code == sf::Keyboard::D) emit_deferred(drink_coffee{});
+
+        // Open your tablet for quests and similar
+        if (e.event.key.code == sf::Keyboard::T) { quitting = true; quit_reason = TABLET; }
+        if (e.event.key.code == sf::Keyboard::S) { show_path = true; }
     }
 
 }

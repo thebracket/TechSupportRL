@@ -49,7 +49,10 @@ add_executable(tsrl src/main.cpp
 	src/systems/log_system.cpp
 	src/systems/despair_system.cpp
 	src/components/logger.cpp
-)
+	src/mode_stack/tablet_mode.cpp
+	src/mode_stack/tablet_mode.hpp
+	src/systems/mission_system.cpp
+	src/systems/path_finding.cpp)
 target_link_libraries(rltk ${SFML_LIBRARIES})
 target_link_libraries(tsrl rltk)
 
