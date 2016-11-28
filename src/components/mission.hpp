@@ -9,6 +9,7 @@ struct mission_t {
         description = m.description;
         destination_id = m.destination_id;
         mission_type = m.mission_type;
+        resolution = m.resolution;
         x = m.x;
         y = m.y;
         z = m.z;
@@ -17,6 +18,7 @@ struct mission_t {
     std::string title = "";
     std::string description = "";
     std::size_t destination_id = 0;
+    std::string resolution = "";
     mission_type_t mission_type;
     int x,y,z;
 };

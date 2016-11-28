@@ -9,6 +9,7 @@ enum mission_type_t { FIX_COMPUTER, FIX_PRINTER, FIX_SERVER, FIX_ROUTER };
 struct available_mission_t {
     std::string title = "";
     std::string description = "";
+    std::string resolution = "";
     std::size_t destination_id = 0;
     mission_type_t mission_type;
     int x,y,z;

@@ -83,7 +83,7 @@ void movement_system::update(const double ms) {
         if (map->tile_type[mapidx(pos->x, pos->y, pos->level)] == tiles::DOWN) candidates.push_back(position_t(pos->x, pos->y, pos->level-1));
 
         if (!candidates.empty()) {
-            const int selection = rng.roll_dice(1, candidates.size()-1);
+            const int selection = rng.roll_dice(1, candidates.size())-1;
             pos->x = candidates[selection].x;
             pos->y = candidates[selection].y;
             pos->level = candidates[selection].level;

@@ -61,9 +61,9 @@ void render_system::update(const double ms) {
                         const int idx = mapidx(step.x, step.y, step.level);
                         auto finder = renderables.find(idx);
                         if (finder == renderables.end()) {
-                            renderables[idx] = std::vector<vchar>{vchar{'*', rltk::colors::GREEN, rltk::colors::BLACK}};
+                            renderables[idx] = std::vector<vchar>{vchar{'*', rltk::colors::YELLOW, rltk::colors::BLACK}};
                         } else {
-                            renderables[idx].push_back(vchar{'*', rltk::colors::GREEN, rltk::colors::BLACK});
+                            renderables[idx].push_back(vchar{'*', rltk::colors::YELLOW, rltk::colors::BLACK});
                         }
                     }
                 }

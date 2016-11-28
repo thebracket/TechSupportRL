@@ -7,27 +7,39 @@
 using namespace rltk;
 
 void mission_system::configure() {
-
+    subscribe_mbox<player_fix_it>();
 }
 
-const std::vector<std::pair<std::string, std::string>> computer_missions {
-        {"I think I have a virus", "My computer is running really slowly. Every time I try to work, I get pop-ups telling me to punch a monkey."}
+const std::vector<std::tuple<std::string, std::string, std::string>> computer_missions {
+        {"I think I have a virus",
+                "My computer is running really slowly. Every time I try to work, I get pop-ups telling me to punch a monkey.",
+                "You run the company anti-virus, and clean up the computer."
+        }
 };
 
-const std::vector<std::pair<std::string, std::string>> printer_missions {
-        {"Printer hates me", "Every time I try to print, I just see the message PC-LOAD-LETTER. I need to print a sales brochure!"}
+const std::vector<std::tuple<std::string, std::string, std::string>> printer_missions {
+        {"Printer hates me",
+                "Every time I try to print, I just see the message PC-LOAD-LETTER. I need to print a sales brochure!",
+                "You add paper to the printer."
+        }
 };
 
-const std::vector<std::pair<std::string, std::string>> server_missions {
-        {"Embarrassing email", "I accidentally sent my wedding photos to everyone in the office. Please clear it from the server!"}
+const std::vector<std::tuple<std::string, std::string, std::string>> server_missions {
+        {"Embarrassing email",
+                "I accidentally sent my wedding photos to everyone in the office. Please clear it from the server!",
+                "You run a mailbox cleanup script, removing the embarrassing email from the mail queue."
+        }
 };
 
-const std::vector<std::pair<std::string, std::string>> router_missions {
-        {"Slow Internet", "Our whole area has slow Internet. Please fix it!"}
+const std::vector<std::tuple<std::string, std::string, std::string>> router_missions {
+        {"Slow Internet",
+                "Our whole area has slow Internet. Please fix it!",
+                "You fix an MTU mismatch that got in there somehow."
+        }
 };
 
 available_mission_t build_generic_mission(std::vector<std::pair<std::size_t, position_t *>> &targets,
-                                          const mission_type_t &type, const std::vector<std::pair<std::string, std::string>> &missions) {
+                                          const mission_type_t &type, const std::vector<std::tuple<std::string, std::string, std::string>> &missions) {
     available_mission_t m;
     m.mission_type = FIX_COMPUTER;
     const int random_target = rng.roll_dice(1, targets.size())-1;
@@ -37,8 +49,9 @@ available_mission_t build_generic_mission(std::vector<std::pair<std::size_t, pos
     m.z = targets[random_target].second->level;
     targets.erase(targets.begin() + random_target);
     int n = rng.roll_dice(1, missions.size())-1;
-    m.title = missions[n].first;
-    m.description = missions[n].second;
+    m.title = std::get<0>(missions[n]);
+    m.description = std::get<1>(missions[n]);
+    m.resolution = std::get<2>(missions[n]);
     return m;
 }
 
@@ -100,4 +113,35 @@ void mission_system::update(const double ms) {
             if (mission) m.available_missions.emplace_back(mission.get());
         }
     });
+
+    std::queue<player_fix_it> * fixes = mbox<player_fix_it>();
+    while (!fixes->empty()) {
+        fixes->pop();
+
+        each<player_t, mission_t, position_t>([] (entity_t &e, player_t &p, mission_t &m, position_t &pos) {
+            if (m.z == pos.level && distance2d(pos.x, pos.y, m.x, m.y) < 1.5F) {
+                // Complete the mission!
+                emit(log_message{LOG().text(m.resolution)->chars});
+                ++p.cost_savings;
+                if (p.cost_savings > 5) {
+                    p.caffeine = 101;
+                    p.despair = 10;
+                    ++p.level;
+                    if (p.level > 4) {
+                        quitting = true;
+                        quit_reason = WINGAME;
+                    } else {
+                        emit_deferred(log_message{LOG().col(rltk::colors::GREEN)->text("You have been promoted! You are one step closer to being paid for this.")->chars});
+                    }
+                }
+
+                // Flag it so it won't become available again
+                each<available_missions_t>([&m] (entity_t &e, available_missions_t &missions) {
+                   missions.fixed_systems.insert(m.destination_id);
+                });
+
+                delete_component<mission_t>(e.id);
+            }
+        });
+    }
 }
