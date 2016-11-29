@@ -18,7 +18,10 @@ void keyboard_system::update(const double ms) {
         messages->pop();        
 
         // Quit game
-        if (e.event.key.code == sf::Keyboard::Q) quitting = true;
+        if (e.event.key.code == sf::Keyboard::Q) {
+            quitting = true;
+            quit_reason = SAVEQUIT;
+        }
 
         // Num pad
         if (e.event.key.code == sf::Keyboard::Num8) emit_deferred(player_wants_to_move_msg(NORTH));
@@ -53,6 +56,7 @@ void keyboard_system::update(const double ms) {
         // Open your tablet for quests and similar
         if (e.event.key.code == sf::Keyboard::T) { quitting = true; quit_reason = TABLET; }
         if (e.event.key.code == sf::Keyboard::S) { show_path = true; }
+        if (e.event.key.code == sf::Keyboard::F) { emit_deferred(player_fix_it{}); }
     }
 
 }

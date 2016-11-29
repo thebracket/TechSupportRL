@@ -1,6 +1,6 @@
 #pragma once
 
-enum tick_result_t { CONTINUE, POP, PUSH_NEW_GAME, POP_NO_CAFFEINE, POP_NO_HOPE, PUSH_TABLET  };
+enum tick_result_t { CONTINUE, POP, PUSH_NEW_GAME, POP_NO_CAFFEINE, POP_NO_HOPE, PUSH_TABLET, PUSH_LOAD_GAME, POP_WIN_GAME  };
 
 struct base_mode {
 	virtual void on_init()=0;

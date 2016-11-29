@@ -9,11 +9,25 @@ struct log_line_t {
 
     std::vector<rltk::vchar> chars;
     int age = 0;
+
+    void to_xml(rltk::xml_node * c) {
+        //rltk::component_to_xml(c, chars);
+        //rltk::component_to_xml(c, age);
+    }
+
+    void from_xml(rltk::xml_node * c) {}
 };
 
 struct logger_t {
+    std::string xml_identity = "logger_t";
 	logger_t() {}
     std::vector<log_line_t> lines;
+
+    void to_xml(rltk::xml_node * c) {
+        rltk::component_to_xml(c, std::make_pair("lines", lines));
+    }
+
+    void from_xml(rltk::xml_node * c) {}
 };
 
 struct LOG {

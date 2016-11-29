@@ -33,6 +33,8 @@ struct player_changed_gait : rltk::base_message_t {};
 
 struct drink_coffee : rltk::base_message_t {};
 
+struct player_fix_it : rltk::base_message_t {};
+
 struct log_message : public rltk::base_message_t {
     log_message() {}
     log_message(std::vector<rltk::vchar> &line) : chars(line) {}

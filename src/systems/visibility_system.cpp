@@ -11,10 +11,11 @@ void visibility_system::configure() {
 }
 
 void visibility_system::update(const double ms) {
-    map_t * map;
+    map_t * map = nullptr;
     each<map_t>([&map] (entity_t &e, map_t &m) {
         map = &m;
     });
+    assert(map != nullptr);
 
     // Update viewsheds
     gait_t gait;
@@ -35,7 +36,8 @@ void visibility_system::update(const double ms) {
             if (check.x > MAP_WIDTH-1) check.x = MAP_WIDTH-1;
             if (check.y < 0) check.y = 0;
             if (check.y > MAP_HEIGHT-1) check.y = MAP_HEIGHT-1;
-            return map->solid[mapidx(check.x, check.y, pos.level)]==false;
+            const int idx = mapidx(check.x, check.y, pos.level);
+            return (map->solid[idx]==false && map->tile_type[idx]!=tiles::GLASS_DOOR);
         });
     });
 

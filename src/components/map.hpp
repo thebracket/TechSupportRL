@@ -20,6 +20,7 @@ constexpr uint16_t PATH = 5;
 constexpr uint16_t FREEDOM = 6;
 constexpr uint16_t GLASS_DOOR = 7;
 constexpr uint16_t WATER = 8;
+constexpr uint16_t FLOOR_RED = 9;
 
 }
 
@@ -45,6 +46,32 @@ const std::vector<std::string> layer_names = {
 };
 
 struct map_t {
+    std::string xml_identity = "map_t";
+    void to_xml(rltk::xml_node * c) {
+        const std::string save_filename = "savegame.map";
+        if (boost::filesystem::exists(save_filename)) boost::filesystem::remove(save_filename);
+        std::unique_ptr<std::ofstream> lbfile = std::make_unique<std::ofstream>(save_filename, std::ios::out | std::ios::binary);
+        // Save file
+        rltk::serialize(*lbfile, tile_type);
+        rltk::serialize(*lbfile, solid);
+        rltk::serialize(*lbfile, visible);
+        rltk::serialize(*lbfile, visible_baddie);
+        rltk::serialize(*lbfile, has_coffee);
+    }
+
+    void from_xml(rltk::xml_node * c) {
+        std::cout << "Loading a map\n";
+        const std::string save_filename = "savegame.map";
+        std::unique_ptr<std::ifstream> lbfile = std::make_unique<std::ifstream>(save_filename, std::ios::in | std::ios::binary);
+        // Load file
+        rltk::deserialize(*lbfile, tile_type);
+        rltk::deserialize(*lbfile, solid);
+        rltk::deserialize(*lbfile, visible);
+        rltk::deserialize(*lbfile, visible_baddie);
+        rltk::deserialize(*lbfile, has_coffee);
+        if (boost::filesystem::exists(save_filename)) boost::filesystem::remove(save_filename);
+    }
+
 	std::vector<uint16_t> tile_type;
 	std::vector<bool> solid;
 	std::vector<bool> visible;
@@ -69,6 +96,7 @@ struct map_t {
 		for (std::size_t i=0; i<MAP_TILES_COUNT; ++i) {
 			bool is_solid = true;
 			if (tile_type[i] == tiles::FLOOR) is_solid = false;
+            if (tile_type[i] == tiles::FLOOR_RED) is_solid = false;
 			if (tile_type[i] == tiles::UP) is_solid = false;
 			if (tile_type[i] == tiles::DOWN) is_solid = false;
 			if (tile_type[i] == tiles::GRASS) is_solid = false;

@@ -8,8 +8,12 @@
 #include "mode_stack/game_mode.hpp"
 #include "mode_stack/dead_mode.hpp"
 #include "mode_stack/tablet_mode.hpp"
+#include "mode_stack/win_mode.hpp"
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
 
 using namespace rltk;
+namespace fs = boost::filesystem;
 
 std::stack<std::unique_ptr<base_mode>> mode_stack;
 
@@ -27,6 +31,9 @@ void tick(double duration_ms) {
 		mode_stack.emplace(std::make_unique<game_mode>());
 		mode_stack.emplace(std::make_unique<intro_mode>());
 		mode_stack.top()->on_init();
+    } else if (result == PUSH_LOAD_GAME) {
+        mode_stack.emplace(std::make_unique<game_mode>("savegame.dat"));
+        mode_stack.top()->on_init();
 	} else if (result == POP_NO_CAFFEINE) {
 		mode_stack.top()->on_exit();
 		mode_stack.pop();
@@ -37,7 +44,11 @@ void tick(double duration_ms) {
 		mode_stack.emplace(std::make_unique<dead_mode>());
 	} else if (result == PUSH_TABLET) {
 		mode_stack.emplace(std::make_unique<tablet_mode>());
-	}
+	} else if (result == POP_WIN_GAME) {
+        mode_stack.top()->on_exit();
+        mode_stack.pop();
+        mode_stack.emplace(std::make_unique<win_mode>());
+    }
 }
 
 void resize_map(layer_t * l, int w, int h) {
@@ -46,7 +57,12 @@ void resize_map(layer_t * l, int w, int h) {
 	l->h = h;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    // Switch to executable directory
+    fs::path full_path( fs::initial_path<fs::path>() );
+	full_path = fs::system_complete( fs::path( argv[0] ) );
+	fs::current_path(full_path.parent_path());
+
     init(config_advanced("assets", 1020, 768, "Tech Support - The Roguelike", false));
     gui->add_layer(1, 0, 0, 1024, 768, "16x16", resize_map, true);
     gui->add_layer(2, 0, 0, 1024, 768, "8x16", resize_map);

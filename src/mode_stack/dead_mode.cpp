@@ -28,8 +28,9 @@ tick_result_t dead_mode::tick(const double ms) {
 		term(2)->print_center(9, "serfdom will never get better, and succumb to");
 		term(2)->print_center(10, "a life of drudgery.");
 	}
+	term(2)->print_center(15, "Press Escape to return to the menu", rltk::colors::MAGENTA);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		return POP;
 	} else {
 		return CONTINUE;
