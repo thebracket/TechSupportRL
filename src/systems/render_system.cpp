@@ -114,14 +114,14 @@ void render_system::update(const double ms) {
 						case tiles::PATH : { col = rltk::colors::WHITE; glyph = 262; } break;
 						case tiles::GLASS_DOOR : { col = rltk::colors::WHITE; glyph = 257; } break;
 						case tiles::WATER : { col = rltk::colors::WHITE; glyph = 263; } break;
-					}					
-					
+					}
+                    if (map->visible_baddie[idx]) {
+                        col = rltk::colors::Pink;
+                    }
+
 				}
 				if (!map->visible[idx]) {
 					col = darken(50, col);
-				}
-				if (map->visible_baddie[idx]) {
-					bg = rltk::colors::DarkBlue;
 				}
 
 				term(1)->set_char(x, y, vchar{glyph, col, bg});

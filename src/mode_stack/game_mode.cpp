@@ -223,7 +223,7 @@ void spawn_npc(const uint8_t &type, const int &x, const int &y, const int &level
                                               }});
         } break;
         case 'S' : {
-            create_entity()->assign(renderable_t{'s', rltk::colors::WHITE})
+            create_entity()->assign(renderable_t{285, rltk::colors::WHITE})
                     ->assign(position_t{x,y,level})
                     ->assign(name_t{"Security Guard"})
                     ->assign(nuisance_ai{})
