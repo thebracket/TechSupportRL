@@ -24,14 +24,14 @@ void keyboard_system::update(const double ms) {
         }
 
         // Num pad
-        if (e.event.key.code == sf::Keyboard::Num8) emit_deferred(player_wants_to_move_msg(NORTH));
-        if (e.event.key.code == sf::Keyboard::Num9) emit_deferred(player_wants_to_move_msg(NORTHEAST));
-        if (e.event.key.code == sf::Keyboard::Num6) emit_deferred(player_wants_to_move_msg(EAST));
-        if (e.event.key.code == sf::Keyboard::Num3) emit_deferred(player_wants_to_move_msg(SOUTHEAST));
-        if (e.event.key.code == sf::Keyboard::Num2) emit_deferred(player_wants_to_move_msg(SOUTH));
-        if (e.event.key.code == sf::Keyboard::Num1) emit_deferred(player_wants_to_move_msg(SOUTHWEST));
-        if (e.event.key.code == sf::Keyboard::Num4) emit_deferred(player_wants_to_move_msg(WEST));
-        if (e.event.key.code == sf::Keyboard::Num7) emit_deferred(player_wants_to_move_msg(NORTHWEST));
+        if (e.event.key.code == sf::Keyboard::Numpad8) emit_deferred(player_wants_to_move_msg(NORTH));
+        if (e.event.key.code == sf::Keyboard::Numpad9) emit_deferred(player_wants_to_move_msg(NORTHEAST));
+        if (e.event.key.code == sf::Keyboard::Numpad6) emit_deferred(player_wants_to_move_msg(EAST));
+        if (e.event.key.code == sf::Keyboard::Numpad3) emit_deferred(player_wants_to_move_msg(SOUTHEAST));
+        if (e.event.key.code == sf::Keyboard::Numpad2) emit_deferred(player_wants_to_move_msg(SOUTH));
+        if (e.event.key.code == sf::Keyboard::Numpad1) emit_deferred(player_wants_to_move_msg(SOUTHWEST));
+        if (e.event.key.code == sf::Keyboard::Numpad4) emit_deferred(player_wants_to_move_msg(WEST));
+        if (e.event.key.code == sf::Keyboard::Numpad7) emit_deferred(player_wants_to_move_msg(NORTHWEST));
         if (e.event.key.code == sf::Keyboard::Comma) emit_deferred(player_wants_to_move_msg(DIRUP));
         if (e.event.key.code == sf::Keyboard::Period) emit_deferred(player_wants_to_move_msg(DIRDOWN));
 
