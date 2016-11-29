@@ -57,6 +57,49 @@ add_executable(tsrl src/main.cpp
 target_link_libraries(rltk ${SFML_LIBRARIES})
 target_link_libraries(tsrl rltk)
 
+if (APPLE)
+    set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+    set(MACOSX_BUNDLE_COPYRIGHT "Copyright 2015-Present Bracket Productions")
+    set(MACOSX_BUNDLE_BUNDLE_NAME "Tech Support - The Roguelike")
+    set(MACOSX_BUNDLE_ICON_FILE "icon")
+    set(MACOSX_BUNDLE_BUNDLE_VERSION "1.0.0")
+#    set(myApp_ICON ${CMAKE_CURRENT_SOURCE_DIR}/../assets/icon.icns)
+ #   set_source_files_properties(${myApp_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    add_executable(techsupportrl MACOSX_BUNDLE src/main.cpp
+            src/mode_stack/menu_mode.cpp
+            src/mode_stack/intro_mode.cpp
+            src/mode_stack/game_mode.cpp
+            src/mode_stack/dead_mode.cpp
+            src/mode_stack/win_mode.cpp
+            src/globals.cpp
+            src/systems/render_system.cpp
+            src/systems/keyboard_system.cpp
+            src/systems/hud_system.cpp
+            src/systems/movement_system.cpp
+            src/systems/caffeine_system.cpp
+            src/systems/time_system.cpp
+            src/systems/visibility_system.cpp
+            src/systems/blocking_system.cpp
+            src/systems/ai_system.cpp
+            src/systems/log_system.cpp
+            src/systems/despair_system.cpp
+            src/components/logger.cpp
+            src/mode_stack/tablet_mode.cpp
+            src/mode_stack/tablet_mode.hpp
+            src/systems/mission_system.cpp
+            src/systems/path_finding.cpp)
+    target_link_libraries(techsupportrl rltk)
+    install(CODE "
+	include (BundleUtilities)
+	fixup_bundle(${CMAKE_INSTALL_PREFIX}/techsupportrl.app \"\" \"\")
+	" COMPONENT techsupportrl)
+    add_custom_command(
+            TARGET techsupportrl
+            COMMAND mkdir -p techsupportrl.app/Contents/MacOS/assets
+            COMMAND cp ../assets/* techsupportrl.app/Contents/MacOS/assets/
+    )
+endif()
+
 # Require Boost
 set(Boost_USE_STATIC_LIBS      OFF) # only find static libs
 set(Boost_USE_MULTITHREADED    ON)

@@ -9,8 +9,11 @@
 #include "mode_stack/dead_mode.hpp"
 #include "mode_stack/tablet_mode.hpp"
 #include "mode_stack/win_mode.hpp"
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
 
 using namespace rltk;
+namespace fs = boost::filesystem;
 
 std::stack<std::unique_ptr<base_mode>> mode_stack;
 
@@ -54,7 +57,12 @@ void resize_map(layer_t * l, int w, int h) {
 	l->h = h;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    // Switch to executable directory
+    fs::path full_path( fs::initial_path<fs::path>() );
+	full_path = fs::system_complete( fs::path( argv[0] ) );
+	fs::current_path(full_path.parent_path());
+
     init(config_advanced("assets", 1020, 768, "Tech Support - The Roguelike", false));
     gui->add_layer(1, 0, 0, 1024, 768, "16x16", resize_map, true);
     gui->add_layer(2, 0, 0, 1024, 768, "8x16", resize_map);
