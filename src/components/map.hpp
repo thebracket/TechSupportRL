@@ -96,6 +96,7 @@ struct map_t {
 		for (std::size_t i=0; i<MAP_TILES_COUNT; ++i) {
 			bool is_solid = true;
 			if (tile_type[i] == tiles::FLOOR) is_solid = false;
+            if (tile_type[i] == tiles::FLOOR_RED) is_solid = false;
 			if (tile_type[i] == tiles::UP) is_solid = false;
 			if (tile_type[i] == tiles::DOWN) is_solid = false;
 			if (tile_type[i] == tiles::GRASS) is_solid = false;
