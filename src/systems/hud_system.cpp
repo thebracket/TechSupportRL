@@ -13,6 +13,7 @@ constexpr int GUI_DRINK = 7;
 constexpr int GUI_TABLET = 8;
 constexpr int GUI_SHOWPATH = 9;
 constexpr int GUI_FIXIT = 10;
+constexpr int GUI_QUIT = 11;
 
 void hud_system::configure() {
     system_name = "HUD System";
@@ -35,6 +36,7 @@ void hud_system::configure() {
     layer(2)->add_static_text(GUI_TABLET, 1, 11, "Placeholder", rltk::colors::YELLOW, rltk::colors::BLACK);
     layer(2)->add_static_text(GUI_SHOWPATH, 1, 12, "", rltk::colors::YELLOW, rltk::colors::BLACK);
     layer(2)->add_static_text(GUI_FIXIT, 1, 13, "", rltk::colors::YELLOW, rltk::colors::BLACK);
+    layer(2)->add_static_text(GUI_QUIT, 1, 15, "(Q) Save and Quit", rltk::colors::YELLOW, rltk::colors::BLACK);
 }
 
 void hud_system::update(const double ms) {
