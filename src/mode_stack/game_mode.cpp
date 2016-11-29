@@ -437,6 +437,11 @@ tick_result_t game_mode::tick(const double ms) {
             ecs_save(std::move(lbfile));
             return POP;
         }
+        case WINGAME : {
+            const std::string save_filename = "savegame.dat";
+            if (boost::filesystem::exists(save_filename)) boost::filesystem::remove(save_filename);
+            return POP_WIN_GAME;
+        }
 		}
 	} else {
 		return CONTINUE;

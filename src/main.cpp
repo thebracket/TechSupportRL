@@ -8,6 +8,7 @@
 #include "mode_stack/game_mode.hpp"
 #include "mode_stack/dead_mode.hpp"
 #include "mode_stack/tablet_mode.hpp"
+#include "mode_stack/win_mode.hpp"
 
 using namespace rltk;
 
@@ -40,7 +41,11 @@ void tick(double duration_ms) {
 		mode_stack.emplace(std::make_unique<dead_mode>());
 	} else if (result == PUSH_TABLET) {
 		mode_stack.emplace(std::make_unique<tablet_mode>());
-	}
+	} else if (result == POP_WIN_GAME) {
+        mode_stack.top()->on_exit();
+        mode_stack.pop();
+        mode_stack.emplace(std::make_unique<win_mode>());
+    }
 }
 
 void resize_map(layer_t * l, int w, int h) {

@@ -36,6 +36,7 @@ add_executable(tsrl src/main.cpp
 	src/mode_stack/intro_mode.cpp
 	src/mode_stack/game_mode.cpp
 	src/mode_stack/dead_mode.cpp
+	src/mode_stack/win_mode.cpp
 	src/globals.cpp
 	src/systems/render_system.cpp
 	src/systems/keyboard_system.cpp
