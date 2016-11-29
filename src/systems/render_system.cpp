@@ -105,6 +105,7 @@ void render_system::update(const double ms) {
 
 					switch (map->tile_type[idx]) {
 						case tiles::FLOOR : { col = rltk::colors::WHITE; glyph = 256; } break;
+                        case tiles::FLOOR_RED : { col = rltk::colors::RED; glyph = 256; } break;
 						case tiles::WALL : { col = rltk::colors::WHITE; glyph = 258; } break;
 						case tiles::UP : { col = rltk::colors::WHITE; glyph = 259; } break;
 						case tiles::DOWN : { col = rltk::colors::WHITE; glyph = 260; } break;

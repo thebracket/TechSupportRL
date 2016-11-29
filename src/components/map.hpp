@@ -20,6 +20,7 @@ constexpr uint16_t PATH = 5;
 constexpr uint16_t FREEDOM = 6;
 constexpr uint16_t GLASS_DOOR = 7;
 constexpr uint16_t WATER = 8;
+constexpr uint16_t FLOOR_RED = 9;
 
 }
 
